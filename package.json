@@ -1,0 +1,24 @@
+{
+	"name": "list-maker-api-v2",
+	"version": "1.0.0",
+	"description": "Version 2 - A Node based API for a simple List Maker Web App.",
+	"main": "index.js",
+	"scripts": {
+		"setup": "npm install && npx husky install"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mittell/list-maker-api-v2.git"
+	},
+	"author": "Chris Mittell",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/mittell/list-maker-api-v2/issues"
+	},
+	"homepage": "https://github.com/mittell/list-maker-api-v2#readme",
+	"devDependencies": {
+		"@commitlint/cli": "^16.2.4",
+		"@commitlint/config-conventional": "^16.2.4",
+		"husky": "^8.0.1"
+	}
+}
