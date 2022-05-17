@@ -25,12 +25,17 @@ export class DbContext implements IContext {
 			const ip = process.env.DB_IP;
 			const port = process.env.DB_PORT;
 			const name = process.env.DB_NAME;
+			const url = process.env.DB_URL;
 
 			if (this.isEmpty(ip) || this.isEmpty(port) || this.isEmpty(name)) {
 				reject('Missing Env Variables');
 			}
-			this._dbConnectionUrl = `mongodb://${ip}:${port}/${name}`;
 
+			if (process.env.NODE_ENV === 'development') {
+				this._dbConnectionUrl = `mongodb://${ip}:${port}/${name}`;
+			} else {
+				this._dbConnectionUrl = `mongodb+srv://${url}/${name}?retryWrites=true&w=majority`;
+			}
 			resolve();
 		});
 
