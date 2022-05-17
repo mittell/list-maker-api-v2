@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
   heroku: circleci/heroku@1.2.6
-  # sonarcloud: sonarsource/sonarcloud@1.0.3
+  sonarcloud: sonarsource/sonarcloud@1.0.3
 
 jobs:
   test-build-scan:
@@ -21,7 +21,7 @@ jobs:
       - run:
           command: npm run build
           name: Build app
-      # - sonarcloud/scan
+      - sonarcloud/scan
       - persist_to_workspace:
           root: ~/project
           paths:
@@ -58,9 +58,9 @@ jobs:
 workflows:
   build-deploy:
     jobs:
-      - test-build-scan
-      # - test-build-scan:
-      #     context: SonarCloud
+      # - test-build-scan
+      - test-build-scan:
+          context: SonarCloud
       - deploy-dev:
           requires:
             - test-build-scan
