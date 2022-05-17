@@ -8,6 +8,17 @@ export class DbContext implements IContext {
 	private _dbConnectionUrl!: string;
 	private _connection!: Connection;
 
+	constructor() {
+		this.init()
+			.then(() => {
+				return this.start();
+			})
+			.catch((error) => {
+				console.log('Error initialising and starting DB connection...');
+				console.log(error);
+			});
+	}
+
 	async init(): Promise<void> {
 		// Setup MongoDB Connection
 		const init: Promise<void> = new Promise((resolve, reject) => {
@@ -78,5 +89,22 @@ export class DbContext implements IContext {
 		}
 
 		return false;
+	}
+
+	async find(collection: string, filter: Object): Promise<any> {
+		const find: Promise<any> = new Promise(async (resolve, reject) => {
+			console.log('I got this far!');
+			console.log(collection);
+			var result = await this._connection
+				.collection(collection)
+				.findOne(filter);
+			if (result) {
+				resolve(result);
+			} else {
+				reject();
+			}
+		});
+
+		return find;
 	}
 }

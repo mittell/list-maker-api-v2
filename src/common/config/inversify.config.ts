@@ -10,6 +10,6 @@ import { IContext } from '../context/context.interface';
 const container = new Container();
 container.bind<IService>(TYPES.IService).to(DummyService);
 container.bind<IController>(TYPES.IController).to(DummyController);
-container.bind<IContext>(TYPES.IContext).to(DbContext).inSingletonScope();
+container.bind<IContext>(TYPES.IContext).to(DbContext);
 
 export { container };
