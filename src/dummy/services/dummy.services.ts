@@ -30,10 +30,6 @@ export class DummyService implements IService {
 	}
 
 	async getDummy(id: number): Promise<string> {
-		const result = new Promise<string>((resolve, _reject) => {
-			resolve(`Here is ${id} from ${this._dbConnection}`);
-		});
-
-		return result;
+		return Promise.resolve(`Here is ${id} from ${this._dbConnection}`);
 	}
 }

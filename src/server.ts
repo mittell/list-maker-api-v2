@@ -16,10 +16,24 @@ console.log('================================');
 
 let server = new InversifyExpressServer(container);
 
+const corsOptions = {
+	allowedHeaders: [
+		'Origin',
+		'X-Requested-With',
+		'Content-Type',
+		'Accept',
+		'X-Access-Token',
+	],
+	credentials: true,
+	methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+	origin: '*',
+	preflightContinue: false,
+};
+
 server.setConfig((app) => {
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({ extended: false }));
-	app.use(cors());
+	app.use(cors(corsOptions));
 	app.use(helmet());
 	console.log('Server configuration complete...');
 });
