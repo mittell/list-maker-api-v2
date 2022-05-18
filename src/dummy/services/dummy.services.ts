@@ -1,8 +1,8 @@
 import { IService } from './service.interface';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { IContext } from '../context/context.interface';
-import { TYPES } from '../types/di.types';
+import { IContext } from '../../common/context/context.interface';
+import { TYPES } from '../../common/types/di.types';
 import { UserModel } from '../models/dummy.model';
 
 @injectable()

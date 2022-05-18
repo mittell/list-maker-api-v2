@@ -9,7 +9,7 @@ import {
 	response,
 	// requestParam,
 } from 'inversify-express-utils';
-import { TYPES } from '../types/di.types';
+import { TYPES } from '../../common/types/di.types';
 import { IService } from '../services/service.interface';
 
 @controller('/dummy')

@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { container } from './common/config/inversify.config';
 
-import './common/controllers/dummy.controller';
+import './dummy/controllers/dummy.controller';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
