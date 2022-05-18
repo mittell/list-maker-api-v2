@@ -8,8 +8,14 @@ import { DbContext } from '../context/db.context';
 import { IContext } from '../context/context.interface';
 
 const container = new Container();
-container.bind<IService>(TYPES.IService).to(DummyService);
-container.bind<IController>(TYPES.IController).to(DummyController);
+
+// Context Binding
 container.bind<IContext>(TYPES.IContext).to(DbContext).inSingletonScope();
+
+// Service Binding
+container.bind<IService>(TYPES.IService).to(DummyService);
+
+// Controller Binding
+container.bind<IController>(TYPES.IController).to(DummyController);
 
 export { container };

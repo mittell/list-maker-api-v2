@@ -26,7 +26,6 @@ export class DummyController implements IController {
 		@request() _req: Request,
 		@response() res: Response
 	): Promise<void> {
-		console.log(`getDummy`);
 		// let data = await this._dummyService.getDummy(1);
 		let data = await this._dummyService.getUser();
 		res.status(200).json({ data });
