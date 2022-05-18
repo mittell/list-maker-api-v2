@@ -48,6 +48,8 @@ export class DbContext implements IContext {
 				.connect(this._dbConnectionUrl, mongooseOptions)
 				.then(() => {
 					console.log('MongoDB successfully connected!');
+					console.log('================================');
+
 					resolve();
 				})
 				.catch((error) => {
@@ -55,6 +57,8 @@ export class DbContext implements IContext {
 						`MongoDB connection was unsuccessful...`,
 						error
 					);
+					console.log('================================');
+
 					reject();
 				});
 		});

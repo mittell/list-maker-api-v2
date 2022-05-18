@@ -10,6 +10,8 @@ import helmet from 'helmet';
 
 const port = process.env.PORT;
 
+console.log('================================');
+
 let server = new InversifyExpressServer(container);
 
 server.setConfig((app) => {
@@ -23,4 +25,5 @@ server.setConfig((app) => {
 export default server.build().listen(port, () => {
 	console.log(`Server listening on port ${port}...`);
 	console.log(`Environment - ${process.env.NODE_ENV}`);
+	console.log('================================');
 });
