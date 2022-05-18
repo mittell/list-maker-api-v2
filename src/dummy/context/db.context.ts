@@ -1,3 +1,4 @@
+import env from '../../common/config/env.config';
 import { injectable } from 'inversify';
 import mongoose, { Connection } from 'mongoose';
 import { IContext } from './context.interface';
@@ -21,7 +22,7 @@ export class DbContext implements IContext {
 
 	async init(): Promise<void> {
 		const init: Promise<void> = new Promise((resolve, reject) => {
-			const url = process.env.DB_URL;
+			const url = env.DB_URL;
 
 			if (this.isEmpty(url)) {
 				reject('Missing Env Variables');

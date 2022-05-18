@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import 'reflect-metadata';
+import env from './common/config/env.config';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { container } from './common/config/inversify.config';
 import bodyParser from 'body-parser';
@@ -9,7 +10,7 @@ import helmet from 'helmet';
 // Import Controllers
 import './dummy/controllers/dummy.controller';
 
-const port = process.env.PORT;
+const port = env.PORT;
 
 console.log('================================');
 
@@ -25,6 +26,6 @@ server.setConfig((app) => {
 
 export default server.build().listen(port, () => {
 	console.log(`Server listening on port ${port}...`);
-	console.log(`Environment - ${process.env.NODE_ENV}`);
+	console.log(`Environment - ${env.NODE_ENV}`);
 	console.log('================================');
 });
