@@ -1,11 +1,12 @@
 import { Container } from 'inversify';
-import { DummyController } from '../../dummy/controllers/dummy.controller';
-import { DummyService } from '../../dummy/services/dummy.services';
-import { IController } from '../../dummy/controllers/controller.interface';
-import { IService } from '../../dummy/services/service.interface';
 import { TYPES } from '../types/di.types';
-import { DbContext } from '../context/db.context';
-import { IContext } from '../context/context.interface';
+
+import { IContext } from '../../dummy/context/context.interface';
+import { DbContext } from '../../dummy/context/db.context';
+import { IController } from '../../dummy/controllers/controller.interface';
+import { DummyController } from '../../dummy/controllers/dummy.controller';
+import { IService } from '../../dummy/services/service.interface';
+import { DummyService } from '../../dummy/services/dummy.services';
 
 const container = new Container();
 

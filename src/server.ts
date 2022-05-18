@@ -2,11 +2,12 @@ import 'dotenv/config';
 import 'reflect-metadata';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { container } from './common/config/inversify.config';
-
-import './dummy/controllers/dummy.controller';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
+
+// Import Controllers
+import './dummy/controllers/dummy.controller';
 
 const port = process.env.PORT;
 
@@ -19,7 +20,7 @@ server.setConfig((app) => {
 	app.use(bodyParser.urlencoded({ extended: false }));
 	app.use(cors());
 	app.use(helmet());
-	console.log('Configuration complete!');
+	console.log('Server configuration complete...');
 });
 
 export default server.build().listen(port, () => {
