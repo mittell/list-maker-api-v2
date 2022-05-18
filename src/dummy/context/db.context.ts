@@ -20,22 +20,15 @@ export class DbContext implements IContext {
 	}
 
 	async init(): Promise<void> {
-		// Setup MongoDB Connection
 		const init: Promise<void> = new Promise((resolve, reject) => {
-			const ip = process.env.DB_IP;
-			const port = process.env.DB_PORT;
-			const name = process.env.DB_NAME;
 			const url = process.env.DB_URL;
 
-			if (this.isEmpty(ip) || this.isEmpty(port) || this.isEmpty(name)) {
+			if (this.isEmpty(url)) {
 				reject('Missing Env Variables');
 			}
 
-			if (process.env.NODE_ENV === 'development') {
-				this._dbConnectionUrl = `mongodb://${ip}:${port}/${name}`;
-			} else {
-				this._dbConnectionUrl = `mongodb+srv://${url}/${name}?retryWrites=true&w=majority`;
-			}
+			this._dbConnectionUrl = url as string;
+
 			resolve();
 		});
 
@@ -43,7 +36,6 @@ export class DbContext implements IContext {
 	}
 
 	async start(): Promise<void> {
-		// Start MongoDB Connection
 		const start: Promise<void> = new Promise(async (resolve, reject) => {
 			const mongooseOptions = {
 				serverSelectionTimeoutMS: 5000,
@@ -56,6 +48,8 @@ export class DbContext implements IContext {
 				.connect(this._dbConnectionUrl, mongooseOptions)
 				.then(() => {
 					console.log('MongoDB successfully connected!');
+					console.log('================================');
+
 					resolve();
 				})
 				.catch((error) => {
@@ -63,6 +57,8 @@ export class DbContext implements IContext {
 						`MongoDB connection was unsuccessful...`,
 						error
 					);
+					console.log('================================');
+
 					reject();
 				});
 		});
@@ -71,7 +67,6 @@ export class DbContext implements IContext {
 	}
 
 	async stop(): Promise<void> {
-		// Stop MongoDB Connection
 		const stop: Promise<void> = new Promise(async (resolve, reject) => {
 			await this._connection
 				.close()
@@ -98,8 +93,6 @@ export class DbContext implements IContext {
 
 	async find(collection: string, filter: Object): Promise<any> {
 		const find: Promise<any> = new Promise(async (resolve, reject) => {
-			console.log('I got this far!');
-			console.log(collection);
 			var result = await this._connection
 				.collection(collection)
 				.findOne(filter);

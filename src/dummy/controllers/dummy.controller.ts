@@ -9,7 +9,7 @@ import {
 	response,
 	// requestParam,
 } from 'inversify-express-utils';
-import { TYPES } from '../types/di.types';
+import { TYPES } from '../../common/types/di.types';
 import { IService } from '../services/service.interface';
 
 @controller('/dummy')
@@ -26,7 +26,6 @@ export class DummyController implements IController {
 		@request() _req: Request,
 		@response() res: Response
 	): Promise<void> {
-		console.log(`getDummy`);
 		// let data = await this._dummyService.getDummy(1);
 		let data = await this._dummyService.getUser();
 		res.status(200).json({ data });
