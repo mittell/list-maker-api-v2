@@ -28,7 +28,7 @@ export class DbContext implements IContext {
 				reject('Missing Env Variables');
 			}
 
-			this._dbConnectionUrl = url as string;
+			this._dbConnectionUrl = url;
 
 			resolve();
 		});
@@ -64,7 +64,7 @@ export class DbContext implements IContext {
 				});
 		});
 
-		return await start;
+		return start;
 	}
 
 	async stop(): Promise<void> {
