@@ -1,6 +1,9 @@
 import { IDto } from '../../common/interfaces/dto.interface';
 import { IModel } from '../../common/interfaces/model.interface';
+import 'reflect-metadata';
+import { injectable } from 'inversify';
 
+@injectable()
 export class PutUserDto implements IDto {
 	private _id: string;
 	private _email: string;

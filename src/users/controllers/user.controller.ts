@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { IController } from './controller.interface';
 import { inject } from 'inversify';
 import 'reflect-metadata';
 import {
@@ -10,24 +9,25 @@ import {
 	// requestParam,
 } from 'inversify-express-utils';
 import { TYPES } from '../../common/types/di.types';
-import { IService } from '../services/service.interface';
+import { IUserService } from '../interfaces/userService.interface';
+import { IUserController } from '../interfaces/userController.interface';
 
-@controller('/dummy')
-export class DummyController implements IController {
-	private _dummyService: IService;
+@controller('/users')
+export class UserController implements IUserController {
+	private _userService: IUserService;
 
-	public constructor(@inject(TYPES.IService) dummyService: IService) {
-		this._dummyService = dummyService;
+	public constructor(@inject(TYPES.IUserService) userService: IUserService) {
+		this._userService = userService;
 	}
 
 	@httpGet('/')
-	async getDummy(
+	async getUserList(
 		// @requestParam('id') id: string,
 		@request() _req: Request,
 		@response() res: Response
 	): Promise<void> {
 		// let data = await this._dummyService.getDummy(1);
-		let data = await this._dummyService.getUser();
+		let data = await this._userService.getUserList();
 		res.status(200).json({ data });
 	}
 }

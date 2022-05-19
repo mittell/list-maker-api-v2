@@ -1,9 +1,9 @@
-import env from '../../common/config/env.config';
+import env from '../config/env.config';
 import { injectable } from 'inversify';
 import mongoose, { Connection } from 'mongoose';
 import { IContext } from './context.interface';
 import 'reflect-metadata';
-import { isEmpty } from '../../common/helpers/utils.helpers';
+import { isEmpty } from '../helpers/utils.helpers';
 
 @injectable()
 export class DbContext implements IContext {
@@ -19,6 +19,10 @@ export class DbContext implements IContext {
 				console.log('Error initialising and starting DB connection...');
 				console.log(error);
 			});
+	}
+
+	public get connection() {
+		return this._connection;
 	}
 
 	async init(): Promise<void> {
@@ -83,20 +87,5 @@ export class DbContext implements IContext {
 		});
 
 		return stop;
-	}
-
-	async find(collection: string, filter: Object): Promise<any> {
-		const find: Promise<any> = new Promise(async (resolve, reject) => {
-			var result = await this._connection
-				.collection(collection)
-				.findOne(filter);
-			if (result) {
-				resolve(result);
-			} else {
-				reject();
-			}
-		});
-
-		return find;
 	}
 }

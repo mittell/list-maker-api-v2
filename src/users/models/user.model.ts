@@ -1,39 +1,32 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
 import { IModel } from '../../common/interfaces/model.interface';
-import { prop, getModelForClass, modelOptions } from '@typegoose/typegoose';
+import { prop, getModelForClass } from '@typegoose/typegoose';
 import { CreateUserDto } from '../dto/createUser.dto';
 import { PutUserDto } from '../dto/putUser.dto';
 import { PatchUserDto } from '../dto/patchUser.dto';
 import { isEmpty } from '../../common/helpers/utils.helpers';
 
 @injectable()
-@modelOptions({
-	schemaOptions: {
-		_id: true,
-		timestamps: true,
-		toObject: { virtuals: true },
-	},
-})
 export class UserModel implements IModel {
 	@prop()
-	private _id: string;
+	private _id!: string;
 
 	@prop({ type: () => String, required: true })
-	private _email: string;
+	private _email!: string;
 
 	@prop({ type: () => String, required: true })
-	private _username: string;
+	private _username!: string;
 
 	@prop({ type: () => String, required: true })
-	private _password: string;
+	private _password!: string;
 
-	constructor(id: string, email: string, username: string, password: string) {
-		this._id = id;
-		this._email = email;
-		this._username = username;
-		this._password = password;
-	}
+	// constructor(id: string, email: string, username: string, password: string) {
+	// 	this._id = id;
+	// 	this._email = email;
+	// 	this._username = username;
+	// 	this._password = password;
+	// }
 
 	public get id() {
 		return this._id;
@@ -51,8 +44,16 @@ export class UserModel implements IModel {
 		return this._password;
 	}
 
-	public async getModel(): Promise<any> {
-		return Promise.resolve(getModelForClass(UserModel));
+	public getModel(dbContext: any): any {
+		return getModelForClass(UserModel, {
+			existingMongoose: dbContext.connection,
+			schemaOptions: {
+				collection: 'test',
+				_id: true,
+				timestamps: true,
+				toObject: { virtuals: true },
+			},
+		});
 	}
 
 	public async mapFromCreateDto(dto: CreateUserDto): Promise<any> {

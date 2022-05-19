@@ -4,5 +4,5 @@ export interface IModel {
 	mapFromCreateDto(dto: IDto): Promise<void>;
 	mapFromPutDto(dto: IDto): Promise<void>;
 	mapFromPatchDto(dto: IDto): Promise<void>;
-	getModel(): Promise<any>;
+	getModel(dbContext: any): Promise<any>;
 }

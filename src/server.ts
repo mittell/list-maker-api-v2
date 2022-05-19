@@ -8,7 +8,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 
 // Import Controllers
-import './dummy/controllers/dummy.controller';
+import './users/controllers/user.controller';
 
 const port = env.PORT;
 

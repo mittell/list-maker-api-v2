@@ -1,12 +1,16 @@
 import { Container } from 'inversify';
 import { TYPES } from '../types/di.types';
 
-import { IContext } from '../../dummy/context/context.interface';
-import { DbContext } from '../../dummy/context/db.context';
-import { IController } from '../../dummy/controllers/controller.interface';
-import { DummyController } from '../../dummy/controllers/dummy.controller';
-import { IService } from '../../dummy/services/service.interface';
-import { DummyService } from '../../dummy/services/dummy.services';
+import { IContext } from '../context/context.interface';
+import { DbContext } from '../context/db.context';
+import { UserModel } from '../../users/models/user.model';
+import { UserDao } from '../../users/dao/user.dao';
+import { IUserService } from '../../users/interfaces/userService.interface';
+import { UserService } from '../../users/services/user.service';
+import { UserController } from '../../users/controllers/user.controller';
+import { IUserController } from '../../users/interfaces/userController.interface';
+import { IUserModel } from '../../users/interfaces/userModel.interface';
+import { IUserDao } from '../../users/interfaces/userDao.interface';
 
 const container = new Container();
 
@@ -14,9 +18,12 @@ const container = new Container();
 container.bind<IContext>(TYPES.IContext).to(DbContext).inSingletonScope();
 
 // Service Binding
-container.bind<IService>(TYPES.IService).to(DummyService);
+container.bind<IUserService>(TYPES.IUserService).to(UserService);
 
 // Controller Binding
-container.bind<IController>(TYPES.IController).to(DummyController);
+container.bind<IUserController>(TYPES.IUserController).to(UserController);
+
+container.bind<IUserModel>(TYPES.IUserModel).to(UserModel);
+container.bind<IUserDao>(TYPES.IUserDao).to(UserDao);
 
 export { container };
