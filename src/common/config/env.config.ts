@@ -1,3 +1,5 @@
+import { isEmpty } from '../helpers/utils.helpers';
+
 interface ENV {
 	PORT: number | undefined;
 	DB_URL: string | undefined;
@@ -20,7 +22,7 @@ const getConfig = (): ENV => {
 
 const getSanitisedConfig = (configValues: ENV): Config => {
 	for (const [key, value] of Object.entries(configValues)) {
-		if (value === undefined) {
+		if (isEmpty(value)) {
 			throw new Error(`Missing key: '${key}' in config.env...`);
 		}
 	}

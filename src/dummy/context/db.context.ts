@@ -3,6 +3,7 @@ import { injectable } from 'inversify';
 import mongoose, { Connection } from 'mongoose';
 import { IContext } from './context.interface';
 import 'reflect-metadata';
+import { isEmpty } from '../../common/helpers/utils.helpers';
 
 @injectable()
 export class DbContext implements IContext {
@@ -24,7 +25,7 @@ export class DbContext implements IContext {
 		const init: Promise<void> = new Promise((resolve, reject) => {
 			const url = env.DB_URL;
 
-			if (this.isEmpty(url)) {
+			if (isEmpty(url)) {
 				reject('Missing Env Variables');
 			}
 
@@ -82,14 +83,6 @@ export class DbContext implements IContext {
 		});
 
 		return stop;
-	}
-
-	isEmpty(value: string | undefined): boolean {
-		if (value === '' || value === undefined || value === null) {
-			return true;
-		}
-
-		return false;
 	}
 
 	async find(collection: string, filter: Object): Promise<any> {
