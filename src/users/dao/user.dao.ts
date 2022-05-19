@@ -21,19 +21,19 @@ export class UserDao implements IUserDao {
 	}
 
 	async getList(): Promise<IUserModel[]> {
-		return await this._schema.find().exec();
+		return this._schema.find().exec();
 	}
 
 	async getById(id: string): Promise<IUserModel> {
-		return await this._schema.findOne({ _id: id }).exec();
+		return this._schema.findOne({ _id: id }).exec();
 	}
 
 	async create(model: any): Promise<IUserModel> {
-		return await new this._schema({ ...model }).save().exec();
+		return new this._schema({ ...model }).save().exec();
 	}
 
 	async update(model: any): Promise<IUserModel> {
-		return await this._schema
+		return this._schema
 			.findOneAndUpdate({ _id: model.id }, { $set: model }, { new: true })
 			.exec();
 	}

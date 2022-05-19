@@ -8,11 +8,11 @@ import {
 	response,
 	BaseHttpController,
 	requestParam,
+	IHttpActionResult,
 } from 'inversify-express-utils';
 import { TYPES } from '../../common/types/di.types';
 import { IUserService } from '../interfaces/userService.interface';
 import { IUserController } from '../interfaces/userController.interface';
-import { IHttpActionResult } from 'inversify-express-utils';
 
 @controller('/users')
 export class UserController
