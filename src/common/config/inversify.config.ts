@@ -23,7 +23,10 @@ container.bind<IUserService>(TYPES.IUserService).to(UserService);
 // Controller Binding
 container.bind<IUserController>(TYPES.IUserController).to(UserController);
 
+// Model Binding
 container.bind<IUserModel>(TYPES.IUserModel).to(UserModel);
+
+// DAO Binding
 container.bind<IUserDao>(TYPES.IUserDao).to(UserDao);
 
 export { container };

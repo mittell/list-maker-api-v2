@@ -20,25 +20,25 @@ export class UserDao implements IUserDao {
 		this._schema = this._userModel.getModel(this._dbContext);
 	}
 
-	async getList(): Promise<any[]> {
+	async getList(): Promise<IUserModel[]> {
 		return await this._schema.find().exec();
 	}
 
-	async getById(id: number): Promise<any> {
+	async getById(id: string): Promise<IUserModel> {
 		return await this._schema.findOne({ _id: id }).exec();
 	}
 
-	async create(model: any): Promise<any> {
+	async create(model: any): Promise<IUserModel> {
 		return await new this._schema({ ...model }).save().exec();
 	}
 
-	async update(model: any): Promise<any> {
+	async update(model: any): Promise<IUserModel> {
 		return await this._schema
 			.findOneAndUpdate({ _id: model.id }, { $set: model }, { new: true })
 			.exec();
 	}
 
-	async delete(id: number): Promise<any> {
+	async delete(id: string): Promise<IUserModel> {
 		return this._schema.deleteOne({ _id: id }).exec();
 	}
 }

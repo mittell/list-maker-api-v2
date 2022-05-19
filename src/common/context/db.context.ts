@@ -1,8 +1,8 @@
 import env from '../config/env.config';
 import { injectable } from 'inversify';
+import 'reflect-metadata';
 import mongoose, { Connection } from 'mongoose';
 import { IContext } from './context.interface';
-import 'reflect-metadata';
 import { isEmpty } from '../helpers/utils.helpers';
 
 @injectable()

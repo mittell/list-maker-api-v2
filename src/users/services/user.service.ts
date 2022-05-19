@@ -28,8 +28,18 @@ export class UserService implements IUserService {
 	}
 
 	//@ts-ignore
-	getUserById(id: number): Promise<IModel> {
-		throw new Error('Method not implemented.');
+	getUserById(id: string): Promise<IModel> {
+		return new Promise<IModel>(async (resolve, reject) => {
+			let result: IModel = await this._userDao.getById(id);
+
+			if (result) {
+				resolve(result);
+			} else {
+				reject();
+			}
+
+			return result;
+		});
 	}
 
 	//@ts-ignore
@@ -43,7 +53,7 @@ export class UserService implements IUserService {
 	}
 
 	//@ts-ignore
-	deleteUser(id: number): Promise<IModel> {
+	deleteUser(id: string): Promise<IModel> {
 		throw new Error('Method not implemented.');
 	}
 }
