@@ -31,8 +31,7 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response
 	): Promise<IHttpActionResult> {
-		let data = await this._userService.getUserList();
-		return this.ok({ data });
+		return this.ok(await this._userService.getUserList());
 	}
 
 	@httpGet('/:id')
@@ -41,7 +40,6 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response
 	): Promise<IHttpActionResult> {
-		let data = await this._userService.getUserById(id);
-		return this.ok({ data });
+		return this.ok(await this._userService.getUserById(id));
 	}
 }

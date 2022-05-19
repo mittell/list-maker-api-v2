@@ -13,7 +13,7 @@ export class UserService implements IUserService {
 		this._userDao = userDao;
 	}
 
-	public getUserList(): Promise<IModel[]> {
+	getUserList(): Promise<IModel[]> {
 		return new Promise<IModel[]>(async (resolve, reject) => {
 			let result: IModel[] = await this._userDao.getList();
 
@@ -27,7 +27,6 @@ export class UserService implements IUserService {
 		});
 	}
 
-	//@ts-ignore
 	getUserById(id: string): Promise<IModel> {
 		return new Promise<IModel>(async (resolve, reject) => {
 			let result: IModel = await this._userDao.getById(id);
