@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+import { injectable } from 'inversify';
 import { IModel } from '../../common/interfaces/model.interface';
 import { prop, getModelForClass, modelOptions } from '@typegoose/typegoose';
 import { CreateUserDto } from '../dto/createUser.dto';
@@ -5,6 +7,7 @@ import { PutUserDto } from '../dto/putUser.dto';
 import { PatchUserDto } from '../dto/patchUser.dto';
 import { isEmpty } from '../../common/helpers/utils.helpers';
 
+@injectable()
 @modelOptions({
 	schemaOptions: {
 		_id: true,
@@ -48,11 +51,11 @@ export class UserModel implements IModel {
 		return this._password;
 	}
 
-	getModel(): Promise<any> {
+	public async getModel(): Promise<any> {
 		return Promise.resolve(getModelForClass(UserModel));
 	}
 
-	mapFromCreateDto(dto: CreateUserDto): Promise<any> {
+	public async mapFromCreateDto(dto: CreateUserDto): Promise<any> {
 		return new Promise(async (resolve, reject) => {
 			if (
 				isEmpty(dto.email) ||
@@ -70,7 +73,7 @@ export class UserModel implements IModel {
 		});
 	}
 
-	mapFromPutDto(dto: PutUserDto): Promise<any> {
+	public async mapFromPutDto(dto: PutUserDto): Promise<any> {
 		return new Promise(async (resolve, reject) => {
 			if (
 				isEmpty(dto.email) ||
@@ -88,7 +91,7 @@ export class UserModel implements IModel {
 		});
 	}
 
-	mapFromPatchDto(dto: PatchUserDto): Promise<any> {
+	public async mapFromPatchDto(dto: PatchUserDto): Promise<any> {
 		return new Promise(async (resolve, _reject) => {
 			if (!isEmpty(dto.email)) {
 				this._email = dto.email as string;
