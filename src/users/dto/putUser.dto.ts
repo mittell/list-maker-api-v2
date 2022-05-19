@@ -33,6 +33,7 @@ export class PutUserDto implements IDto {
 		return this._password;
 	}
 
+	//@ts-ignore
 	mapFromModel(model: IModel): Promise<void> {
 		throw new Error('Method not implemented.');
 	}
