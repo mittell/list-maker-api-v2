@@ -58,7 +58,7 @@ export class UserController
 		return new CreateUserDto()
 			.mapFromRequest(body)
 			.then(async (dto) => {
-				return await this._userService.createUser(dto);
+				return this._userService.createUser(dto);
 			})
 			.then((result) => {
 				return this.ok(result);

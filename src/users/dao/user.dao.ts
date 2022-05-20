@@ -39,7 +39,7 @@ export class UserDao implements IUserDao {
 				...this._userModel,
 			});
 
-			return await item.save();
+			return item.save();
 		});
 	}
 
