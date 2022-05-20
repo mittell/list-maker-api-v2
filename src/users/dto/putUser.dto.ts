@@ -1,10 +1,10 @@
-import { IDto } from '../../common/interfaces/dto.interface';
-import { IModel } from '../../common/interfaces/model.interface';
 import 'reflect-metadata';
 import { injectable } from 'inversify';
+import { IModel } from '../../common/interfaces/model.interface';
+import { IUserPutDto } from '../interfaces/userPutDto.interface';
 
 @injectable()
-export class PutUserDto implements IDto {
+export class PutUserDto implements IUserPutDto {
 	private _id: string;
 	private _email: string;
 	private _username: string;
@@ -31,6 +31,11 @@ export class PutUserDto implements IDto {
 
 	public get password() {
 		return this._password;
+	}
+
+	//@ts-ignore
+	mapFromRequest(model: any): Promise<void> {
+		throw new Error('Method not implemented.');
 	}
 
 	//@ts-ignore

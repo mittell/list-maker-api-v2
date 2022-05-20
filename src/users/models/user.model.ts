@@ -48,7 +48,7 @@ export class UserModel implements IModel {
 		return getModelForClass(UserModel, {
 			existingMongoose: dbContext.connection,
 			schemaOptions: {
-				collection: 'test',
+				collection: 'users',
 				_id: true,
 				timestamps: true,
 				toObject: { virtuals: true },

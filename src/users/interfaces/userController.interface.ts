@@ -14,4 +14,34 @@ export interface IUserController {
 		res: Response,
 		next: NextFunction
 	): Promise<IHttpActionResult>;
+
+	createUser(
+		body: any,
+		req: Request,
+		res: Response,
+		next: NextFunction
+	): Promise<IHttpActionResult>;
+
+	putUser(
+		id: string,
+		body: any,
+		req: Request,
+		res: Response,
+		next: NextFunction
+	): Promise<IHttpActionResult>;
+
+	patchUser(
+		id: string,
+		body: any,
+		req: Request,
+		res: Response,
+		next: NextFunction
+	): Promise<IHttpActionResult>;
+
+	deleteUser(
+		id: string,
+		req: Request,
+		res: Response,
+		next: NextFunction
+	): Promise<IHttpActionResult>;
 }

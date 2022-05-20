@@ -4,11 +4,14 @@ import { TYPES } from '../../common/types/di.types';
 import { IContext } from '../../common/context/context.interface';
 import { IUserDao } from '../interfaces/userDao.interface';
 import { IUserModel } from '../interfaces/userModel.interface';
+import { IUserCreateDto } from '../interfaces/userCreateDto.interface';
+import { IUserPutDto } from '../interfaces/userPutDto.interface';
+import { IUserPatchDto } from '../interfaces/userPatchDto.interface';
 
 @injectable()
 export class UserDao implements IUserDao {
-	private _dbContext: any;
-	private _userModel: any;
+	private _dbContext: IContext;
+	private _userModel: IUserModel;
 	private _schema: any;
 
 	public constructor(
@@ -28,13 +31,23 @@ export class UserDao implements IUserDao {
 		return this._schema.findOne({ _id: id }).exec();
 	}
 
-	async create(model: any): Promise<IUserModel> {
-		return new this._schema({ ...model }).save().exec();
+	async create(dto: IUserCreateDto): Promise<IUserModel> {
+		return await this._userModel.mapFromCreateDto(dto).then(async () => {
+			console.log(this._userModel);
+			let item = new this._schema({
+				_email: this._userModel.email,
+				_username: this._userModel.username,
+				_password: this._userModel.password,
+			});
+			await item.save();
+
+			return item;
+		});
 	}
 
-	async update(model: any): Promise<IUserModel> {
+	async update(dto: IUserPutDto | IUserPatchDto): Promise<IUserModel> {
 		return this._schema
-			.findOneAndUpdate({ _id: model.id }, { $set: model }, { new: true })
+			.findOneAndUpdate({ _id: dto.id }, { $set: dto }, { new: true })
 			.exec();
 	}
 
