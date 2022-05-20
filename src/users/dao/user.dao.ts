@@ -34,7 +34,8 @@ export class UserDao implements IUserDao {
 	async create(dto: IUserCreateDto): Promise<IUserModel> {
 		return await this._userModel.mapFromCreateDto(dto).then(async () => {
 			let item = await this._schema.create({
-				id: '1234567',
+				// TODO - Replace with ID Generation logic...
+				id: '12345678',
 				...this._userModel,
 			});
 
