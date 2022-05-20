@@ -33,15 +33,12 @@ export class UserDao implements IUserDao {
 
 	async create(dto: IUserCreateDto): Promise<IUserModel> {
 		return await this._userModel.mapFromCreateDto(dto).then(async () => {
-			console.log(this._userModel);
-			let item = new this._schema({
-				_email: this._userModel.email,
-				_username: this._userModel.username,
-				_password: this._userModel.password,
+			let item = await this._schema.create({
+				id: '1234567',
+				...this._userModel,
 			});
-			await item.save();
 
-			return item;
+			return await item.save();
 		});
 	}
 

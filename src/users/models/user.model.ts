@@ -9,39 +9,48 @@ import { isEmpty } from '../../common/helpers/utils.helpers';
 
 @injectable()
 export class UserModel implements IModel {
-	@prop()
+	@prop({ required: true })
 	private _id!: string;
 
-	@prop({ type: () => String, required: true })
+	@prop({ required: true })
 	private _email!: string;
 
-	@prop({ type: () => String, required: true })
+	@prop({ required: true })
 	private _username!: string;
 
-	@prop({ type: () => String, required: true })
+	@prop({ required: true })
 	private _password!: string;
-
-	// constructor(id: string, email: string, username: string, password: string) {
-	// 	this._id = id;
-	// 	this._email = email;
-	// 	this._username = username;
-	// 	this._password = password;
-	// }
 
 	public get id() {
 		return this._id;
+	}
+
+	public set id(value: string) {
+		this._id = value;
 	}
 
 	public get email() {
 		return this._email;
 	}
 
+	public set email(value: string) {
+		this._email = value;
+	}
+
 	public get username() {
 		return this._username;
 	}
 
+	public set username(value: string) {
+		this._username = value;
+	}
+
 	public get password() {
 		return this._password;
+	}
+
+	public set password(value: string) {
+		this._password = value;
 	}
 
 	public getModel(dbContext: any): any {
