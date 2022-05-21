@@ -41,7 +41,7 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response,
 		@next() next: NextFunction
-	): Promise<void | IHttpActionResult> {
+	): Promise<IHttpActionResult | void> {
 		return await this._userService
 			.getUserList()
 			.then((model) => {
@@ -65,7 +65,7 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response,
 		@next() next: NextFunction
-	): Promise<void | IHttpActionResult> {
+	): Promise<IHttpActionResult | void> {
 		return await this._userService
 			.getUserById(id)
 			.then(async (model) => {
@@ -85,7 +85,7 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response,
 		@next() next: NextFunction
-	): Promise<void | IHttpActionResult> {
+	): Promise<IHttpActionResult | void> {
 		return await new CreateUserDto()
 			.mapFromRequest(body)
 			.then(async (dto) => {
@@ -109,7 +109,7 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response,
 		@next() next: NextFunction
-	): Promise<void | IHttpActionResult> {
+	): Promise<IHttpActionResult | void> {
 		return await new PutUserDto()
 			.mapFromRequest(id, body)
 			.then(async (dto) => {
@@ -133,7 +133,7 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response,
 		@next() next: NextFunction
-	): Promise<void | IHttpActionResult> {
+	): Promise<IHttpActionResult | void> {
 		return await new PatchUserDto()
 			.mapFromRequest(id, body)
 			.then(async (dto) => {
@@ -156,7 +156,7 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response,
 		@next() next: NextFunction
-	): Promise<void | IHttpActionResult> {
+	): Promise<IHttpActionResult | void> {
 		return await this._userService
 			.deleteUser(id)
 			.then((_dto) => {

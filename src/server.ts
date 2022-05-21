@@ -7,14 +7,13 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import * as Sentry from '@sentry/node';
-
-// Import Controllers
-import './users/controllers/user.controller';
-
 import {
 	handleErrors,
 	handleInvalidUrl,
 } from './common/middleware/error.middleware';
+
+// Import Controllers
+import './users/controllers/user.controller';
 
 const port = env.PORT;
 
