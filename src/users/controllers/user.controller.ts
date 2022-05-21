@@ -55,7 +55,7 @@ export class UserController
 				return this.json(dto);
 			})
 			.catch((error) => {
-				next(error);
+				return next(error);
 			});
 	}
 
@@ -75,7 +75,7 @@ export class UserController
 				return this.json(dto);
 			})
 			.catch((error) => {
-				next(error);
+				return next(error);
 			});
 	}
 
@@ -98,7 +98,7 @@ export class UserController
 				return this.json(dto);
 			})
 			.catch((error) => {
-				next(error);
+				return next(error);
 			});
 	}
 
@@ -122,7 +122,7 @@ export class UserController
 				return this.json(result);
 			})
 			.catch((error) => {
-				next(error);
+				return next(error);
 			});
 	}
 
@@ -146,7 +146,7 @@ export class UserController
 				return this.json(result);
 			})
 			.catch((error) => {
-				next(error);
+				return next(error);
 			});
 	}
 
@@ -163,7 +163,7 @@ export class UserController
 				return this.ok();
 			})
 			.catch((error) => {
-				next(error);
+				return next(error);
 			});
 	}
 }

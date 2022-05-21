@@ -33,8 +33,6 @@ export async function handleErrors(
 	_next: NextFunction
 ): Promise<void> {
 	if (env.NODE_ENV === 'development') {
-		console.error(error);
-		console.error(typeof error);
 		Sentry.captureException(error);
 	}
 
@@ -106,7 +104,7 @@ export async function handleErrors(
 		res.status(error.status || 500).json({
 			status: error.status || 500,
 			name: error.name,
-			message: error.message,
+			message: 'Unhandled internal server error',
 		});
 	}
 }
