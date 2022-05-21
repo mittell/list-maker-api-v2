@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
-import { IModel } from '../../common/interfaces/model.interface';
 import { IUserPutDto } from '../interfaces/userPutDto.interface';
 import { isEmpty } from '../../common/helpers/utils.helpers';
 
@@ -50,10 +49,5 @@ export class PutUserDto implements IUserPutDto {
 
 			resolve(this);
 		});
-	}
-
-	//@ts-ignore
-	mapFromModel(model: IModel): Promise<void> {
-		throw new Error('Method not implemented.');
 	}
 }

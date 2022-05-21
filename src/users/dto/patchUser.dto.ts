@@ -1,6 +1,5 @@
 import { injectable } from 'inversify';
 import { isEmpty } from '../../common/helpers/utils.helpers';
-import { IModel } from '../../common/interfaces/model.interface';
 import { IUserPatchDto } from '../interfaces/userPatchDto.interface';
 
 @injectable()
@@ -51,10 +50,5 @@ export class PatchUserDto implements IUserPatchDto {
 
 			resolve(this);
 		});
-	}
-
-	//@ts-ignore
-	mapFromModel(model: IModel): Promise<void> {
-		throw new Error('Method not implemented.');
 	}
 }
