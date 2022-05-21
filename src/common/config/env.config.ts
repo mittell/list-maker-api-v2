@@ -1,4 +1,5 @@
 import { isEmpty } from '../helpers/utils.helpers';
+import { ConfigurationError } from '../types/error.types';
 
 interface ENV {
 	PORT: number | undefined;
@@ -26,7 +27,9 @@ const getConfig = (): ENV => {
 const getSanitisedConfig = (configValues: ENV): Config => {
 	for (const [key, value] of Object.entries(configValues)) {
 		if (isEmpty(value)) {
-			throw new Error(`Missing key: '${key}' in config.env...`);
+			throw new ConfigurationError(
+				`Missing key: '${key}' in config.env...`
+			);
 		}
 	}
 	return configValues as Config;

@@ -1,5 +1,18 @@
 import { HttpStatusCodes } from './httpCode.type';
 
+export class ConfigurationError extends Error {
+	public readonly status: number;
+
+	public constructor(message?: string) {
+		super();
+		Object.setPrototypeOf(this, ConfigurationError.prototype);
+
+		this.status = HttpStatusCodes.InternalServerError;
+		this.name = this.constructor.name;
+		this.message = message ? message : '';
+	}
+}
+
 export class UnauthorizedError extends Error {
 	public readonly status: number;
 
