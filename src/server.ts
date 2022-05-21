@@ -6,9 +6,12 @@ import { container } from './common/config/inversify.config';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
+import * as Sentry from '@sentry/node';
 
 // Import Controllers
-import './dummy/controllers/dummy.controller';
+import './users/controllers/user.controller';
+
+import { NextFunction, Request, Response } from 'express';
 
 const port = env.PORT;
 
@@ -35,7 +38,21 @@ server.setConfig((app) => {
 	app.use(bodyParser.urlencoded({ extended: false }));
 	app.use(cors(corsOptions));
 	app.use(helmet());
+
+	Sentry.init({
+		dsn: env.SENTRY_URL,
+		tracesSampleRate: 1.0,
+	});
+
 	console.log('Server configuration complete...');
+});
+
+server.setErrorConfig((app) => {
+	app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+		console.error(err.stack);
+		Sentry.captureException(err);
+		res.status(500).send('An error occurred...');
+	});
 });
 
 export default server.build().listen(port, () => {
