@@ -4,12 +4,14 @@ interface ENV {
 	PORT: number | undefined;
 	DB_URL: string | undefined;
 	NODE_ENV: string | undefined;
+	SENTRY_URL: string | undefined;
 }
 
 interface Config {
 	PORT: number;
 	DB_URL: string;
 	NODE_ENV: string;
+	SENTRY_URL: string;
 }
 
 const getConfig = (): ENV => {
@@ -17,6 +19,7 @@ const getConfig = (): ENV => {
 		PORT: process.env.PORT ? Number(process.env.PORT) : undefined,
 		DB_URL: process.env.DB_URL ? process.env.DB_URL : undefined,
 		NODE_ENV: process.env.NODE_ENV ? process.env.NODE_ENV : undefined,
+		SENTRY_URL: process.env.SENTRY_URL ? process.env.SENTRY_URL : undefined,
 	};
 };
 
