@@ -5,17 +5,10 @@ import { IUserPutDto } from '../interfaces/userPutDto.interface';
 
 @injectable()
 export class PutUserDto implements IUserPutDto {
-	private _id: string;
-	private _email: string;
-	private _username: string;
-	private _password: string;
-
-	constructor(id: string, email: string, username: string, password: string) {
-		this._id = id;
-		this._email = email;
-		this._username = username;
-		this._password = password;
-	}
+	private _id!: string;
+	private _email!: string;
+	private _username!: string;
+	private _password!: string;
 
 	public get id() {
 		return this._id;

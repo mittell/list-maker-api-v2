@@ -9,18 +9,6 @@ export class PatchUserDto implements IUserPatchDto {
 	private _username: string | undefined;
 	private _password: string | undefined;
 
-	constructor(
-		id: string | undefined,
-		email: string | undefined,
-		username: string | undefined,
-		password: string | undefined
-	) {
-		this._id = id;
-		this._email = email;
-		this._username = username;
-		this._password = password;
-	}
-
 	public get id() {
 		return this._id;
 	}

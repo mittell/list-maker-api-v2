@@ -17,21 +17,18 @@ export class UserService implements IUserService {
 		this._userDao = userDao;
 	}
 
-	getUserList(): Promise<IModel[]> {
+	async getUserList(): Promise<IModel[]> {
 		return new Promise<IModel[]>(async (resolve, reject) => {
-			let result: IModel[] = await this._userDao.getList();
-
-			if (result) {
-				resolve(result);
-			} else {
+			return await this._userDao.getList().then((data) => {
+				if (data) {
+					resolve(data);
+				}
 				reject();
-			}
-
-			return result;
+			});
 		});
 	}
 
-	getUserById(id: string): Promise<IModel> {
+	async getUserById(id: string): Promise<IModel> {
 		return new Promise<IModel>(async (resolve, reject) => {
 			let result: IModel = await this._userDao.getById(id);
 
@@ -45,13 +42,10 @@ export class UserService implements IUserService {
 		});
 	}
 
-	createUser(dto: ICreateDto): Promise<IModel> {
+	async createUser(dto: ICreateDto): Promise<IModel> {
 		return new Promise<IModel>(async (resolve, reject) => {
 			dto.id = uuid();
-			console.log('DTO TO DAO');
-			console.log(dto);
 			let result: IModel = await this._userDao.create(dto);
-			console.log(result);
 			if (result) {
 				resolve(result);
 			} else {
@@ -62,7 +56,7 @@ export class UserService implements IUserService {
 		});
 	}
 
-	updateUser(dto: IPutDto | IPatchDto): Promise<IModel> {
+	async updateUser(dto: IPutDto | IPatchDto): Promise<IModel> {
 		return new Promise<IModel>(async (resolve, reject) => {
 			let result: IModel = await this._userDao.update(dto);
 
@@ -76,7 +70,7 @@ export class UserService implements IUserService {
 		});
 	}
 
-	deleteUser(id: string): Promise<IModel> {
+	async deleteUser(id: string): Promise<IModel> {
 		return new Promise<IModel>(async (resolve, reject) => {
 			let result: IModel = await this._userDao.delete(id);
 

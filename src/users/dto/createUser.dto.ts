@@ -10,12 +10,6 @@ export class CreateUserDto implements IUserCreateDto {
 	private _username!: string;
 	private _password!: string;
 
-	// constructor(email: string, username: string, password: string) {
-	// 	this._email = email;
-	// 	this._username = username;
-	// 	this._password = password;
-	// }
-
 	public get id() {
 		return this._id;
 	}
