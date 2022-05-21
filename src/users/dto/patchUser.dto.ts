@@ -1,4 +1,5 @@
 import { injectable } from 'inversify';
+import { isEmpty } from '../../common/helpers/utils.helpers';
 import { IModel } from '../../common/interfaces/model.interface';
 import { IUserPatchDto } from '../interfaces/userPatchDto.interface';
 
@@ -25,9 +26,31 @@ export class PatchUserDto implements IUserPatchDto {
 		return this._password;
 	}
 
-	//@ts-ignore
-	mapFromRequest(model: any): Promise<void> {
-		throw new Error('Method not implemented.');
+	mapFromRequest(requestId: string, model: any): Promise<IUserPatchDto> {
+		return new Promise<IUserPatchDto>(async (resolve, _reject) => {
+			let id: string = requestId;
+			let email: string | undefined = model.email;
+			let username: string | undefined = model.username;
+			let password: string | undefined = model.password;
+
+			if (!isEmpty(id)) {
+				this._id = id;
+			}
+
+			if (!isEmpty(email)) {
+				this._email = email;
+			}
+
+			if (!isEmpty(username)) {
+				this._username = username;
+			}
+
+			if (!isEmpty(password)) {
+				this._password = password;
+			}
+
+			resolve(this);
+		});
 	}
 
 	//@ts-ignore

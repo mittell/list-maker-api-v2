@@ -19,6 +19,8 @@ import { TYPES } from '../../common/types/di.types';
 import { IUserService } from '../interfaces/userService.interface';
 import { IUserController } from '../interfaces/userController.interface';
 import { CreateUserDto } from '../dto/createUser.dto';
+import { PutUserDto } from '../dto/putUser.dto';
+import { PatchUserDto } from '../dto/patchUser.dto';
 
 @controller('/users')
 export class UserController
@@ -70,22 +72,44 @@ export class UserController
 
 	@httpPut('/:id')
 	async putUser(
-		@requestParam('id') _id: string,
+		@requestParam('id') id: string,
 		@requestBody() body: any,
 		@request() _req: Request,
 		@response() _res: Response
 	): Promise<IHttpActionResult> {
-		return this.ok(await this._userService.updateUser(body));
+		// return this.ok(await this._userService.updateUser(body));
+		return new PutUserDto()
+			.mapFromRequest(id, body)
+			.then(async (dto) => {
+				return this._userService.updateUser(dto);
+			})
+			.then((result) => {
+				return this.json(result);
+			})
+			.catch((error) => {
+				return this.badRequest(error);
+			});
 	}
 
 	@httpPatch('/:id')
 	async patchUser(
-		@requestParam('id') _id: string,
+		@requestParam('id') id: string,
 		@requestBody() body: any,
 		@request() _req: Request,
 		@response() _res: Response
 	): Promise<IHttpActionResult> {
-		return this.ok(await this._userService.updateUser(body));
+		// return this.ok(await this._userService.updateUser(body));
+		return new PatchUserDto()
+			.mapFromRequest(id, body)
+			.then(async (dto) => {
+				return this._userService.updateUser(dto);
+			})
+			.then((result) => {
+				return this.json(result);
+			})
+			.catch((error) => {
+				return this.badRequest(error);
+			});
 	}
 
 	@httpDelete('/:id')

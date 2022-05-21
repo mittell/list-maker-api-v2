@@ -85,26 +85,14 @@ export class UserModel implements IModel {
 		});
 	}
 
-	public async mapFromPutDto(dto: PutUserDto): Promise<any> {
-		return new Promise(async (resolve, reject) => {
-			if (
-				isEmpty(dto.email) ||
-				isEmpty(dto.username) ||
-				isEmpty(dto.password)
-			) {
-				reject('Unable to map from PutDto.');
+	public async mapFromUpdateDto(
+		dto: PutUserDto | PatchUserDto
+	): Promise<any> {
+		return new Promise(async (resolve, _reject) => {
+			if (!isEmpty(dto.id)) {
+				this._id = dto.id as string;
 			}
 
-			this._email = dto.email;
-			this._username = dto.username;
-			this._password = dto.password;
-
-			resolve(UserModel);
-		});
-	}
-
-	public async mapFromPatchDto(dto: PatchUserDto): Promise<any> {
-		return new Promise(async (resolve, _reject) => {
 			if (!isEmpty(dto.email)) {
 				this._email = dto.email as string;
 			}

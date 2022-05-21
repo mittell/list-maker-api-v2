@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { injectable } from 'inversify';
 import { IModel } from '../../common/interfaces/model.interface';
 import { IUserPutDto } from '../interfaces/userPutDto.interface';
+import { isEmpty } from '../../common/helpers/utils.helpers';
 
 @injectable()
 export class PutUserDto implements IUserPutDto {
@@ -26,9 +27,29 @@ export class PutUserDto implements IUserPutDto {
 		return this._password;
 	}
 
-	//@ts-ignore
-	mapFromRequest(model: any): Promise<void> {
-		throw new Error('Method not implemented.');
+	mapFromRequest(requestId: string, model: any): Promise<IUserPutDto> {
+		return new Promise<IUserPutDto>(async (resolve, reject) => {
+			let id: string = requestId;
+			let email: string = model.email;
+			let username: string = model.username;
+			let password: string = model.password;
+
+			if (
+				isEmpty(id) ||
+				isEmpty(email) ||
+				isEmpty(username) ||
+				isEmpty(password)
+			) {
+				reject('Unable to map Dto from Request.');
+			}
+
+			this._id = id;
+			this._email = email;
+			this._username = username;
+			this._password = password;
+
+			resolve(this);
+		});
 	}
 
 	//@ts-ignore

@@ -44,9 +44,11 @@ export class UserDao implements IUserDao {
 	}
 
 	async update(dto: IUserPutDto | IUserPatchDto): Promise<IUserModel> {
-		return this._schema
-			.findOneAndUpdate({ _id: dto.id }, { $set: dto }, { new: true })
-			.exec();
+		return await this._userModel.mapFromUpdateDto(dto).then(async () => {
+			return await this._schema
+				.findOneAndUpdate({ _id: dto.id }, { $set: dto }, { new: true })
+				.exec();
+		});
 	}
 
 	async delete(id: string): Promise<IUserModel> {
