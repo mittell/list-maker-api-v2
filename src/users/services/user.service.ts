@@ -18,69 +18,23 @@ export class UserService implements IUserService {
 	}
 
 	async getUserList(): Promise<IUserModel[]> {
-		return new Promise<IUserModel[]>(async (resolve, reject) => {
-			return this._userDao.getList().then((data) => {
-				if (data) {
-					resolve(data);
-				}
-				reject();
-			});
-		});
+		return this._userDao.getList();
 	}
 
 	async getUserById(id: string): Promise<IUserModel> {
-		return new Promise<IUserModel>(async (resolve, reject) => {
-			let result: IUserModel = await this._userDao.getById(id);
-
-			if (result) {
-				resolve(result);
-			} else {
-				reject();
-			}
-
-			return result;
-		});
+		return await this._userDao.getById(id);
 	}
 
 	async createUser(dto: IUserCreateDto): Promise<IUserModel> {
-		return new Promise<IUserModel>(async (resolve, reject) => {
-			dto.id = uuid();
-			let result: IUserModel = await this._userDao.create(dto);
-			if (result) {
-				resolve(result);
-			} else {
-				reject();
-			}
-
-			return result;
-		});
+		dto.id = uuid();
+		return await this._userDao.create(dto);
 	}
 
 	async updateUser(dto: IUserPutDto | IUserPatchDto): Promise<IUserModel> {
-		return new Promise<IUserModel>(async (resolve, reject) => {
-			let result: IUserModel = await this._userDao.update(dto);
-
-			if (result) {
-				resolve(result);
-			} else {
-				reject();
-			}
-
-			return result;
-		});
+		return await this._userDao.update(dto);
 	}
 
 	async deleteUser(id: string): Promise<IUserModel> {
-		return new Promise<IUserModel>(async (resolve, reject) => {
-			let result: IUserModel = await this._userDao.delete(id);
-
-			if (result) {
-				resolve(result);
-			} else {
-				reject();
-			}
-
-			return result;
-		});
+		return await this._userDao.delete(id);
 	}
 }

@@ -7,11 +7,13 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import * as Sentry from '@sentry/node';
+import {
+	handleErrors,
+	handleInvalidUrl,
+} from './common/middleware/error.middleware';
 
 // Import Controllers
 import './users/controllers/user.controller';
-
-import { NextFunction, Request, Response } from 'express';
 
 const port = env.PORT;
 
@@ -48,11 +50,8 @@ server.setConfig((app) => {
 });
 
 server.setErrorConfig((app) => {
-	app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-		console.error(err.stack);
-		Sentry.captureException(err);
-		res.status(500).send('An error occurred...');
-	});
+	app.use(handleInvalidUrl);
+	app.use(handleErrors);
 });
 
 export default server.build().listen(port, () => {
