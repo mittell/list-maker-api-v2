@@ -1,10 +1,6 @@
-<div align="center">
-
 # List Maker API v2
 
 An API built using Node and Express, and the successor to my first attempt at a Node-based API.
-
-</div>
 
 <!-- <div align="center">
   
@@ -62,9 +58,8 @@ Created a .env file in the project root, and make sure the following keys are ad
     PORT=<Add Port Number - e.g. 3000>
     NODE_ENV=<Add Environment - e.g. development>
     DB_URL=<Add DB PATH/URL>
-    <!-- SENTRY_URL=<Add Sentry URL>
-    API_VERSION=<Add Version - e.g. v1>
-    JWT_SECRET=<Add Secret - Make it long and random!> -->
+    SENTRY_URL=<Add Sentry URL>
+    JWT_SECRET=<Add Secret - Make it long and random!>
 
 Run and debug the application with the dev script:
 
