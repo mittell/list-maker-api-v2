@@ -4,7 +4,7 @@ import { IPatchDto } from './patchDto.interface';
 import { IPutDto } from './putDto.interface';
 
 export interface IModel {
-	mapFromCreateDto(dto: ICreateDto): Promise<void>;
-	mapFromUpdateDto(dto: IPutDto | IPatchDto): Promise<void>;
+	mapFromCreateDto(dto: ICreateDto): Promise<ICreateDto>;
+	mapFromUpdateDto(dto: IPutDto | IPatchDto): Promise<IPutDto | IPatchDto>;
 	getModel(dbContext: IContext): Promise<any>;
 }

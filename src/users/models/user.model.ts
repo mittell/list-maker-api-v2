@@ -1,14 +1,14 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
-import { IModel } from '../../common/interfaces/model.interface';
 import { prop, getModelForClass } from '@typegoose/typegoose';
 import { CreateUserDto } from '../dto/createUser.dto';
 import { PutUserDto } from '../dto/putUser.dto';
 import { PatchUserDto } from '../dto/patchUser.dto';
 import { isEmpty } from '../../common/helpers/utils.helpers';
+import { IUserModel } from '../interfaces/userModel.interface';
 
 @injectable()
-export class UserModel implements IModel {
+export class UserModel implements IUserModel {
 	@prop({ required: true })
 	private _id!: string;
 
@@ -81,7 +81,7 @@ export class UserModel implements IModel {
 			this._username = dto.username;
 			this._password = dto.password;
 
-			resolve(UserModel);
+			resolve(this);
 		});
 	}
 
@@ -105,7 +105,7 @@ export class UserModel implements IModel {
 				this._password = dto.password as string;
 			}
 
-			resolve(UserModel);
+			resolve(this);
 		});
 	}
 }

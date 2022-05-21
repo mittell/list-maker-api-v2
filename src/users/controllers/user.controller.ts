@@ -21,6 +21,7 @@ import { IUserController } from '../interfaces/userController.interface';
 import { CreateUserDto } from '../dto/createUser.dto';
 import { PutUserDto } from '../dto/putUser.dto';
 import { PatchUserDto } from '../dto/patchUser.dto';
+import { ReturnUserDto } from '../dto/returnUser.dto';
 
 @controller('/users')
 export class UserController
@@ -39,7 +40,21 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response
 	): Promise<IHttpActionResult> {
-		return this.json(await this._userService.getUserList());
+		return await this._userService
+			.getUserList()
+			.then((model) => {
+				return Promise.all(
+					Array.from(model, async (item) => {
+						return await new ReturnUserDto().mapFromModel(item);
+					})
+				);
+			})
+			.then((dto) => {
+				return this.json(dto);
+			})
+			.catch((error) => {
+				return this.badRequest(error);
+			});
 	}
 
 	@httpGet('/:id')
@@ -48,7 +63,17 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response
 	): Promise<IHttpActionResult> {
-		return this.json(await this._userService.getUserById(id));
+		return await this._userService
+			.getUserById(id)
+			.then(async (model) => {
+				return await new ReturnUserDto().mapFromModel(model);
+			})
+			.then((dto) => {
+				return this.json(dto);
+			})
+			.catch((error) => {
+				return this.badRequest(error);
+			});
 	}
 
 	@httpPost('/')
@@ -62,8 +87,11 @@ export class UserController
 			.then(async (dto) => {
 				return this._userService.createUser(dto);
 			})
-			.then((result) => {
-				return this.json(result);
+			.then((model) => {
+				return new ReturnUserDto().mapFromModel(model);
+			})
+			.then((dto) => {
+				return this.json(dto);
 			})
 			.catch((error) => {
 				return this.badRequest(error);
@@ -81,6 +109,9 @@ export class UserController
 			.mapFromRequest(id, body)
 			.then(async (dto) => {
 				return this._userService.updateUser(dto);
+			})
+			.then((model) => {
+				return new ReturnUserDto().mapFromModel(model);
 			})
 			.then((result) => {
 				return this.json(result);
@@ -102,6 +133,9 @@ export class UserController
 			.then(async (dto) => {
 				return this._userService.updateUser(dto);
 			})
+			.then((model) => {
+				return new ReturnUserDto().mapFromModel(model);
+			})
 			.then((result) => {
 				return this.json(result);
 			})
@@ -116,6 +150,13 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response
 	): Promise<IHttpActionResult> {
-		return this.ok(await this._userService.deleteUser(id));
+		return await this._userService
+			.deleteUser(id)
+			.then((_dto) => {
+				return this.ok();
+			})
+			.catch((error) => {
+				return this.badRequest(error);
+			});
 	}
 }

@@ -1,16 +1,16 @@
-import { ICreateDto } from '../../common/interfaces/createDto.interface';
-import { IModel } from '../../common/interfaces/model.interface';
-import { IPatchDto } from '../../common/interfaces/patchDto.interface';
-import { IPutDto } from '../../common/interfaces/putDto.interface';
+import { IUserCreateDto } from './userCreateDto.interface';
+import { IUserModel } from './userModel.interface';
+import { IUserPatchDto } from './userPatchDto.interface';
+import { IUserPutDto } from './userPutDto.interface';
 
 export interface IUserService {
-	getUserList(): Promise<IModel[]>;
+	getUserList(): Promise<IUserModel[]>;
 
-	getUserById(id: string): Promise<IModel>;
+	getUserById(id: string): Promise<IUserModel>;
 
-	createUser(dto: ICreateDto): Promise<IModel>;
+	createUser(dto: IUserCreateDto): Promise<IUserModel>;
 
-	updateUser(dto: IPatchDto | IPutDto): Promise<IModel>;
+	updateUser(dto: IUserPatchDto | IUserPutDto): Promise<IUserModel>;
 
-	deleteUser(id: string): Promise<IModel>;
+	deleteUser(id: string): Promise<IUserModel>;
 }
