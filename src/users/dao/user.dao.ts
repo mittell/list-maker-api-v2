@@ -33,7 +33,7 @@ export class UserDao implements IUserDao {
 
 	async create(dto: IUserCreateDto): Promise<IUserModel> {
 		return await this._userModel.mapFromCreateDto(dto).then(async () => {
-			return await this._schema
+			return this._schema
 				.create({
 					...this._userModel,
 				})
@@ -45,7 +45,7 @@ export class UserDao implements IUserDao {
 
 	async update(dto: IUserPutDto | IUserPatchDto): Promise<IUserModel> {
 		return await this._userModel.mapFromUpdateDto(dto).then(async () => {
-			return await this._schema
+			return this._schema
 				.findOneAndUpdate({ _id: dto.id }, { $set: dto }, { new: true })
 				.exec();
 		});

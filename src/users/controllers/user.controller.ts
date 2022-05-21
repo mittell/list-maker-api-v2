@@ -77,7 +77,6 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response
 	): Promise<IHttpActionResult> {
-		// return this.ok(await this._userService.updateUser(body));
 		return new PutUserDto()
 			.mapFromRequest(id, body)
 			.then(async (dto) => {
@@ -98,7 +97,6 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response
 	): Promise<IHttpActionResult> {
-		// return this.ok(await this._userService.updateUser(body));
 		return new PatchUserDto()
 			.mapFromRequest(id, body)
 			.then(async (dto) => {

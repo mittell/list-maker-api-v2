@@ -19,7 +19,7 @@ export class UserService implements IUserService {
 
 	async getUserList(): Promise<IModel[]> {
 		return new Promise<IModel[]>(async (resolve, reject) => {
-			return await this._userDao.getList().then((data) => {
+			return this._userDao.getList().then((data) => {
 				if (data) {
 					resolve(data);
 				}
