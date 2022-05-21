@@ -11,6 +11,7 @@ import { IUserService } from '../../users/interfaces/userService.interface';
 import { UserService } from '../../users/services/user.service';
 import { IUserController } from '../../users/interfaces/userController.interface';
 import { UserController } from '../../users/controllers/user.controller';
+// import { IMiddleware } from '../interfaces/middleware.interface';
 
 const container = new Container();
 
@@ -28,5 +29,8 @@ container.bind<IUserService>(TYPES.IUserService).to(UserService);
 
 // Controller Binding
 container.bind<IUserController>(TYPES.IUserController).to(UserController);
+
+// Middleware Binding
+// container.bind<IMiddleware>(TYPES.IMiddleware).to(ErrorMiddleware);
 
 export { container };

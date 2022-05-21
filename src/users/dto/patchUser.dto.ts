@@ -25,7 +25,10 @@ export class PatchUserDto implements IUserPatchDto {
 		return this._password;
 	}
 
-	mapFromRequest(requestId: string, model: any): Promise<IUserPatchDto> {
+	async mapFromRequest(
+		requestId: string,
+		model: any
+	): Promise<IUserPatchDto> {
 		return new Promise<IUserPatchDto>(async (resolve, _reject) => {
 			let id: string = requestId;
 			let email: string | undefined = model.email;

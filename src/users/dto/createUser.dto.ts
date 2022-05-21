@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { injectable } from 'inversify';
 import { isEmpty } from '../../common/helpers/utils.helpers';
 import { IUserCreateDto } from '../interfaces/userCreateDto.interface';
+import { MappingError } from '../../common/types/error.types';
 
 @injectable()
 export class CreateUserDto implements IUserCreateDto {
@@ -30,21 +31,19 @@ export class CreateUserDto implements IUserCreateDto {
 		return this._password;
 	}
 
-	mapFromRequest(model: any): Promise<IUserCreateDto> {
-		return new Promise<IUserCreateDto>(async (resolve, reject) => {
-			let email: string = model.email;
-			let username: string = model.username;
-			let password: string = model.password;
+	async mapFromRequest(model: any): Promise<IUserCreateDto> {
+		let email: string = model.email;
+		let username: string = model.username;
+		let password: string = model.password;
 
-			if (isEmpty(email) || isEmpty(username) || isEmpty(password)) {
-				reject('Unable to map Dto from Request.');
-			}
+		if (isEmpty(email) || isEmpty(username) || isEmpty(password)) {
+			throw new MappingError('Unable to map Dto from Request.');
+		}
 
-			this._email = email;
-			this._username = username;
-			this._password = password;
+		this._email = email;
+		this._username = username;
+		this._password = password;
 
-			resolve(this);
-		});
+		return this;
 	}
 }

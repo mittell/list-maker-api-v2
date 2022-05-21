@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { inject } from 'inversify';
 import 'reflect-metadata';
 import {
@@ -14,6 +14,7 @@ import {
 	httpDelete,
 	BaseHttpController,
 	IHttpActionResult,
+	next,
 } from 'inversify-express-utils';
 import { TYPES } from '../../common/types/di.types';
 import { IUserService } from '../interfaces/userService.interface';
@@ -38,8 +39,9 @@ export class UserController
 	@httpGet('/')
 	async getUsers(
 		@request() _req: Request,
-		@response() _res: Response
-	): Promise<IHttpActionResult> {
+		@response() _res: Response,
+		@next() next: NextFunction
+	): Promise<void | IHttpActionResult> {
 		return await this._userService
 			.getUserList()
 			.then((model) => {
@@ -53,7 +55,7 @@ export class UserController
 				return this.json(dto);
 			})
 			.catch((error) => {
-				return this.badRequest(error);
+				next(error);
 			});
 	}
 
@@ -61,8 +63,9 @@ export class UserController
 	async getUserById(
 		@requestParam('id') id: string,
 		@request() _req: Request,
-		@response() _res: Response
-	): Promise<IHttpActionResult> {
+		@response() _res: Response,
+		@next() next: NextFunction
+	): Promise<void | IHttpActionResult> {
 		return await this._userService
 			.getUserById(id)
 			.then(async (model) => {
@@ -72,7 +75,7 @@ export class UserController
 				return this.json(dto);
 			})
 			.catch((error) => {
-				return this.badRequest(error);
+				next(error);
 			});
 	}
 
@@ -80,9 +83,10 @@ export class UserController
 	async createUser(
 		@requestBody() body: any,
 		@request() _req: Request,
-		@response() _res: Response
-	): Promise<IHttpActionResult> {
-		return new CreateUserDto()
+		@response() _res: Response,
+		@next() next: NextFunction
+	): Promise<void | IHttpActionResult> {
+		return await new CreateUserDto()
 			.mapFromRequest(body)
 			.then(async (dto) => {
 				return this._userService.createUser(dto);
@@ -94,7 +98,7 @@ export class UserController
 				return this.json(dto);
 			})
 			.catch((error) => {
-				return this.badRequest(error);
+				next(error);
 			});
 	}
 
@@ -103,9 +107,10 @@ export class UserController
 		@requestParam('id') id: string,
 		@requestBody() body: any,
 		@request() _req: Request,
-		@response() _res: Response
-	): Promise<IHttpActionResult> {
-		return new PutUserDto()
+		@response() _res: Response,
+		@next() next: NextFunction
+	): Promise<void | IHttpActionResult> {
+		return await new PutUserDto()
 			.mapFromRequest(id, body)
 			.then(async (dto) => {
 				return this._userService.updateUser(dto);
@@ -117,7 +122,7 @@ export class UserController
 				return this.json(result);
 			})
 			.catch((error) => {
-				return this.badRequest(error);
+				next(error);
 			});
 	}
 
@@ -126,9 +131,10 @@ export class UserController
 		@requestParam('id') id: string,
 		@requestBody() body: any,
 		@request() _req: Request,
-		@response() _res: Response
-	): Promise<IHttpActionResult> {
-		return new PatchUserDto()
+		@response() _res: Response,
+		@next() next: NextFunction
+	): Promise<void | IHttpActionResult> {
+		return await new PatchUserDto()
 			.mapFromRequest(id, body)
 			.then(async (dto) => {
 				return this._userService.updateUser(dto);
@@ -140,7 +146,7 @@ export class UserController
 				return this.json(result);
 			})
 			.catch((error) => {
-				return this.badRequest(error);
+				next(error);
 			});
 	}
 
@@ -148,15 +154,16 @@ export class UserController
 	async deleteUserById(
 		@requestParam('id') id: string,
 		@request() _req: Request,
-		@response() _res: Response
-	): Promise<IHttpActionResult> {
+		@response() _res: Response,
+		@next() next: NextFunction
+	): Promise<void | IHttpActionResult> {
 		return await this._userService
 			.deleteUser(id)
 			.then((_dto) => {
 				return this.ok();
 			})
 			.catch((error) => {
-				return this.badRequest(error);
+				next(error);
 			});
 	}
 }

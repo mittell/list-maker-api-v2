@@ -27,7 +27,7 @@ export class ReturnUserDto implements IUserReturnDto {
 		return this._password;
 	}
 
-	mapFromModel(model: IUserModel): Promise<IUserReturnDto> {
+	async mapFromModel(model: IUserModel): Promise<IUserReturnDto> {
 		return new Promise<IUserReturnDto>(async (resolve, reject) => {
 			let id: string = model.id;
 			let email: string = model.email;

@@ -26,7 +26,7 @@ export class PutUserDto implements IUserPutDto {
 		return this._password;
 	}
 
-	mapFromRequest(requestId: string, model: any): Promise<IUserPutDto> {
+	async mapFromRequest(requestId: string, model: any): Promise<IUserPutDto> {
 		return new Promise<IUserPutDto>(async (resolve, reject) => {
 			let id: string = requestId;
 			let email: string = model.email;
