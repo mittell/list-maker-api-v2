@@ -7,6 +7,7 @@ import { IPutDto } from '../../common/interfaces/putDto.interface';
 import { TYPES } from '../../common/types/di.types';
 import { IUserDao } from '../interfaces/userDao.interface';
 import { IUserService } from '../interfaces/userService.interface';
+import { v4 as uuid } from 'uuid';
 
 @injectable()
 export class UserService implements IUserService {
@@ -46,8 +47,11 @@ export class UserService implements IUserService {
 
 	createUser(dto: ICreateDto): Promise<IModel> {
 		return new Promise<IModel>(async (resolve, reject) => {
+			dto.id = uuid();
+			console.log('DTO TO DAO');
+			console.log(dto);
 			let result: IModel = await this._userDao.create(dto);
-
+			console.log(result);
 			if (result) {
 				resolve(result);
 			} else {

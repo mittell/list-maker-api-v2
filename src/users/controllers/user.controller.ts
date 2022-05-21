@@ -37,7 +37,7 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response
 	): Promise<IHttpActionResult> {
-		return this.ok(await this._userService.getUserList());
+		return this.json(await this._userService.getUserList());
 	}
 
 	@httpGet('/:id')
@@ -46,7 +46,7 @@ export class UserController
 		@request() _req: Request,
 		@response() _res: Response
 	): Promise<IHttpActionResult> {
-		return this.ok(await this._userService.getUserById(id));
+		return this.json(await this._userService.getUserById(id));
 	}
 
 	@httpPost('/')
@@ -61,7 +61,7 @@ export class UserController
 				return this._userService.createUser(dto);
 			})
 			.then((result) => {
-				return this.ok(result);
+				return this.json(result);
 			})
 			.catch((error) => {
 				return this.badRequest(error);

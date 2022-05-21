@@ -5,6 +5,7 @@ import { IUserCreateDto } from '../interfaces/userCreateDto.interface';
 
 @injectable()
 export class CreateUserDto implements IUserCreateDto {
+	private _id!: string;
 	private _email!: string;
 	private _username!: string;
 	private _password!: string;
@@ -15,16 +16,24 @@ export class CreateUserDto implements IUserCreateDto {
 	// 	this._password = password;
 	// }
 
+	public get id() {
+		return this._id;
+	}
+
+	public set id(value: string) {
+		this._id = value;
+	}
+
 	public get email() {
-		return this._email.valueOf();
+		return this._email;
 	}
 
 	public get username() {
-		return this._username.valueOf();
+		return this._username;
 	}
 
 	public get password() {
-		return this._password.valueOf();
+		return this._password;
 	}
 
 	mapFromRequest(model: any): Promise<IUserCreateDto> {

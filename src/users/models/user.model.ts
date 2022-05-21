@@ -68,6 +68,7 @@ export class UserModel implements IModel {
 	public async mapFromCreateDto(dto: CreateUserDto): Promise<any> {
 		return new Promise(async (resolve, reject) => {
 			if (
+				isEmpty(dto.id) ||
 				isEmpty(dto.email) ||
 				isEmpty(dto.username) ||
 				isEmpty(dto.password)
@@ -75,6 +76,7 @@ export class UserModel implements IModel {
 				reject('Unable to map from CreateDto.');
 			}
 
+			this._id = dto.id;
 			this._email = dto.email;
 			this._username = dto.username;
 			this._password = dto.password;
