@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { IHttpActionResult } from 'inversify-express-utils';
 
 export interface IUserController {
-	getUserList(
+	getUsers(
 		req: Request,
 		res: Response,
 		next: NextFunction
@@ -22,7 +22,7 @@ export interface IUserController {
 		next: NextFunction
 	): Promise<IHttpActionResult>;
 
-	putUser(
+	putUserById(
 		id: string,
 		body: any,
 		req: Request,
@@ -30,7 +30,7 @@ export interface IUserController {
 		next: NextFunction
 	): Promise<IHttpActionResult>;
 
-	patchUser(
+	patchUserById(
 		id: string,
 		body: any,
 		req: Request,
@@ -38,7 +38,7 @@ export interface IUserController {
 		next: NextFunction
 	): Promise<IHttpActionResult>;
 
-	deleteUser(
+	deleteUserById(
 		id: string,
 		req: Request,
 		res: Response,

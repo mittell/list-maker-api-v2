@@ -36,7 +36,7 @@ export class UserController
 	}
 
 	@httpGet('/')
-	async getUserList(
+	async getUsers(
 		@request() _req: Request,
 		@response() _res: Response
 	): Promise<IHttpActionResult> {
@@ -99,7 +99,7 @@ export class UserController
 	}
 
 	@httpPut('/:id')
-	async putUser(
+	async putUserById(
 		@requestParam('id') id: string,
 		@requestBody() body: any,
 		@request() _req: Request,
@@ -122,7 +122,7 @@ export class UserController
 	}
 
 	@httpPatch('/:id')
-	async patchUser(
+	async patchUserById(
 		@requestParam('id') id: string,
 		@requestBody() body: any,
 		@request() _req: Request,
@@ -145,7 +145,7 @@ export class UserController
 	}
 
 	@httpDelete('/:id')
-	async deleteUser(
+	async deleteUserById(
 		@requestParam('id') id: string,
 		@request() _req: Request,
 		@response() _res: Response
