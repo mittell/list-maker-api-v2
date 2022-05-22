@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
-import { IUserPutDto } from '../interfaces/userPutDto.interface';
+import { IPutUserDto } from '../interfaces/putUserDto.interface';
 import { isEmpty } from '../../common/helpers/utils.helpers';
 import { MappingError } from '../../common/types/error.types';
 
 @injectable()
-export class PutUserDto implements IUserPutDto {
+export class PutUserDto implements IPutUserDto {
 	private _id!: string;
 	private _email!: string;
 	private _username!: string;
@@ -27,7 +27,7 @@ export class PutUserDto implements IUserPutDto {
 		return this._password;
 	}
 
-	async mapFromRequest(requestId: string, model: any): Promise<IUserPutDto> {
+	async mapFromRequest(requestId: string, model: any): Promise<IPutUserDto> {
 		let id: string = requestId;
 		let email: string = model.email;
 		let username: string = model.username;

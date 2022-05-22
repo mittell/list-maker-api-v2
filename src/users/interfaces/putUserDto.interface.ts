@@ -1,5 +1,5 @@
 import { IPutDto } from '../../common/interfaces/base/putDto.interface';
 
-export interface IUserPutDto extends IPutDto {
+export interface IPutUserDto extends IPutDto {
 	get id(): string;
 }

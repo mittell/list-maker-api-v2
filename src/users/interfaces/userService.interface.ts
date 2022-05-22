@@ -1,7 +1,7 @@
-import { IUserCreateDto } from './userCreateDto.interface';
+import { ICreateUserDto } from './createUserDto.interface';
 import { IUserModel } from './userModel.interface';
-import { IUserPatchDto } from './userPatchDto.interface';
-import { IUserPutDto } from './userPutDto.interface';
+import { IPatchUserDto } from './patchUserDto.interface';
+import { IPutUserDto } from './putUserDto.interface';
 
 export interface IUserService {
 	getUserList(): Promise<IUserModel[]>;
@@ -10,9 +10,9 @@ export interface IUserService {
 
 	getUserByEmail(id: string): Promise<IUserModel>;
 
-	createUser(dto: IUserCreateDto): Promise<IUserModel>;
+	createUser(dto: ICreateUserDto): Promise<IUserModel>;
 
-	updateUser(dto: IUserPatchDto | IUserPutDto): Promise<IUserModel>;
+	updateUser(dto: IPatchUserDto | IPutUserDto): Promise<IUserModel>;
 
 	deleteUser(id: string): Promise<IUserModel>;
 }

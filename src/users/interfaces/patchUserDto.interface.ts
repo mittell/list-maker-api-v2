@@ -1,5 +1,5 @@
 import { IPatchDto } from '../../common/interfaces/base/patchDto.interface';
 
-export interface IUserPatchDto extends IPatchDto {
+export interface IPatchUserDto extends IPatchDto {
 	get id(): string | undefined;
 }

@@ -1,9 +1,9 @@
 import { injectable } from 'inversify';
 import { isEmpty } from '../../common/helpers/utils.helpers';
-import { IUserPatchDto } from '../interfaces/userPatchDto.interface';
+import { IPatchUserDto } from '../interfaces/patchUserDto.interface';
 
 @injectable()
-export class PatchUserDto implements IUserPatchDto {
+export class PatchUserDto implements IPatchUserDto {
 	private _id: string | undefined;
 	private _email: string | undefined;
 	private _username: string | undefined;
@@ -28,7 +28,7 @@ export class PatchUserDto implements IUserPatchDto {
 	async mapFromRequest(
 		requestId: string,
 		model: any
-	): Promise<IUserPatchDto> {
+	): Promise<IPatchUserDto> {
 		let id: string = requestId;
 		let email: string | undefined = model.email;
 		let username: string | undefined = model.username;

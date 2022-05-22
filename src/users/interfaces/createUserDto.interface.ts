@@ -1,6 +1,6 @@
 import { ICreateDto } from '../../common/interfaces/base/createDto.interface';
 
-export interface IUserCreateDto extends ICreateDto {
+export interface ICreateUserDto extends ICreateDto {
 	get id(): string;
 	set id(value: string);
 	get email(): string;
