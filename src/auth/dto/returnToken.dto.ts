@@ -1,6 +1,6 @@
-import { ITokenReturnDto } from '../interfaces/tokenReturnDto.interface';
+import { IReturnTokenDto } from '../interfaces/returnTokenDto.interface';
 
-export class ReturnTokenDto implements ITokenReturnDto {
+export class ReturnTokenDto implements IReturnTokenDto {
 	public accessToken: string;
 	public refreshToken: string;
 

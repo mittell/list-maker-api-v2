@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
 import 'reflect-metadata';
 import { IAuthService } from '../interfaces/authServices.interface';
-import { ITokenReturnDto } from '../interfaces/tokenReturnDto.interface';
+import { IReturnTokenDto } from '../interfaces/returnTokenDto.interface';
 import env from '../../common/config/env.config';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
@@ -10,7 +10,7 @@ import { ReturnTokenDto } from '../dto/returnToken.dto';
 
 @injectable()
 export class AuthService implements IAuthService {
-	async generateJsonWebToken(body: any): Promise<ITokenReturnDto> {
+	async generateJsonWebToken(body: any): Promise<IReturnTokenDto> {
 		try {
 			const tokenExpirationInSeconds = 36000;
 			const refreshId = body.userId + env.JWT_SECRET;
