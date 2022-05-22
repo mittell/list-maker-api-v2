@@ -1,12 +1,12 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
-import { IUserReturnDto } from '../interfaces/userReturnDto.interface';
+import { IReturnUserDto } from '../interfaces/returnUserDto.interface';
 import { IUserModel } from '../interfaces/userModel.interface';
 import { isEmpty } from '../../common/helpers/utils.helpers';
 import { MappingError } from '../../common/types/error.types';
 
 @injectable()
-export class ReturnUserDto implements IUserReturnDto {
+export class ReturnUserDto implements IReturnUserDto {
 	private _id!: string;
 	private _email!: string;
 	private _username!: string;
@@ -28,7 +28,7 @@ export class ReturnUserDto implements IUserReturnDto {
 		return this._password;
 	}
 
-	async mapFromModel(model: IUserModel): Promise<IUserReturnDto> {
+	async mapFromModel(model: IUserModel): Promise<IReturnUserDto> {
 		let id: string = model.id;
 		let email: string = model.email;
 		let username: string = model.username;

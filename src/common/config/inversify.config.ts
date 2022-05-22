@@ -11,7 +11,20 @@ import { IUserService } from '../../users/interfaces/userService.interface';
 import { UserService } from '../../users/services/user.service';
 import { IUserController } from '../../users/interfaces/userController.interface';
 import { UserController } from '../../users/controllers/user.controller';
-// import { IMiddleware } from '../interfaces/middleware.interface';
+import { IAuthController } from '../../auth/interfaces/authController.interface';
+import { AuthController } from '../../auth/controllers/auth.controller';
+import { IVerifyPasswordMiddleware } from '../../auth/interfaces/verifyPasswordMiddleware.interface';
+import { VerifyPasswordMiddleware } from '../../auth/middleware/verifyPassword.middleware';
+import { IVerifyJsonWebTokenMiddleware } from '../../auth/interfaces/verifyJsonWebTokenMiddleware.interface';
+import { VerifyJsonWebTokenMiddleware } from '../../auth/middleware/verifyJsonWebToken.middleware';
+import { IVerifyPermissionMiddleware } from '../../auth/interfaces/verifyPermissionMiddleware.interface';
+import { VerifyPermissionMiddleware } from '../../auth/middleware/verifyPermission.middleware';
+import { IVerifyRefreshBodyMiddleware } from '../../auth/interfaces/verifyRefreshBodyMiddleware.interface';
+import { VerifyRefreshBodyMiddleware } from '../../auth/middleware/verifyRefreshBody.middleware';
+import { IVerifyRefreshTokenMiddleware } from '../../auth/interfaces/verifyRefreshTokenMiddleware';
+import { VerifyRefreshTokenMiddleware } from '../../auth/middleware/verifyRefreshToken.middleware';
+import { IAuthService } from '../../auth/interfaces/authServices.interface';
+import { AuthService } from '../../auth/services/auth.service';
 
 const container = new Container();
 
@@ -25,12 +38,28 @@ container.bind<IUserModel>(TYPES.IUserModel).to(UserModel);
 container.bind<IUserDao>(TYPES.IUserDao).to(UserDao);
 
 // Service Binding
+container.bind<IAuthService>(TYPES.IAuthService).to(AuthService);
 container.bind<IUserService>(TYPES.IUserService).to(UserService);
 
 // Controller Binding
+container.bind<IAuthController>(TYPES.IAuthController).to(AuthController);
 container.bind<IUserController>(TYPES.IUserController).to(UserController);
 
 // Middleware Binding
-// container.bind<IMiddleware>(TYPES.IMiddleware).to(ErrorMiddleware);
+container
+	.bind<IVerifyPasswordMiddleware>(TYPES.IVerifyPasswordMiddleware)
+	.to(VerifyPasswordMiddleware);
+container
+	.bind<IVerifyJsonWebTokenMiddleware>(TYPES.IVerifyJsonWebTokenMiddleware)
+	.to(VerifyJsonWebTokenMiddleware);
+container
+	.bind<IVerifyPermissionMiddleware>(TYPES.IVerifyPermissionMiddleware)
+	.to(VerifyPermissionMiddleware);
+container
+	.bind<IVerifyRefreshBodyMiddleware>(TYPES.IVerifyRefreshBodyMiddleware)
+	.to(VerifyRefreshBodyMiddleware);
+container
+	.bind<IVerifyRefreshTokenMiddleware>(TYPES.IVerifyRefreshTokenMiddleware)
+	.to(VerifyRefreshTokenMiddleware);
 
 export { container };

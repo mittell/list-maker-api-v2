@@ -1,4 +1,4 @@
-import { IModel } from '../../common/interfaces/model.interface';
+import { IModel } from '../../common/interfaces/base/model.interface';
 
 export interface IUserModel extends IModel {
 	get id(): string;

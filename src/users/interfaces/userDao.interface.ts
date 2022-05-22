@@ -1,13 +1,14 @@
-import { IDao } from '../../common/interfaces/dao.interface';
-import { IUserCreateDto } from './userCreateDto.interface';
+import { IDao } from '../../common/interfaces/base/dao.interface';
+import { ICreateUserDto } from './createUserDto.interface';
 import { IUserModel } from './userModel.interface';
-import { IUserPatchDto } from './userPatchDto.interface';
-import { IUserPutDto } from './userPutDto.interface';
+import { IPatchUserDto } from './patchUserDto.interface';
+import { IPutUserDto } from './putUserDto.interface';
 
 export interface IUserDao extends IDao {
 	getList(): Promise<IUserModel[]>;
 	getById(id: string): Promise<IUserModel>;
-	create(dto: IUserCreateDto): Promise<IUserModel>;
-	update(dto: IUserPutDto | IUserPatchDto): Promise<IUserModel>;
+	getByEmail(email: string): Promise<IUserModel>;
+	create(dto: ICreateUserDto): Promise<IUserModel>;
+	update(dto: IPutUserDto | IPatchUserDto): Promise<IUserModel>;
 	delete(id: string): Promise<IUserModel>;
 }

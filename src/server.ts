@@ -1,18 +1,20 @@
 import 'dotenv/config';
 import 'reflect-metadata';
 import env from './common/config/env.config';
-import { InversifyExpressServer } from 'inversify-express-utils';
+import { getRouteInfo, InversifyExpressServer } from 'inversify-express-utils';
 import { container } from './common/config/inversify.config';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import * as Sentry from '@sentry/node';
+import * as prettyjson from 'prettyjson';
 import {
 	handleErrors,
 	handleInvalidUrl,
 } from './common/middleware/error.middleware';
 
 // Import Controllers
+import './auth/controllers/auth.controller';
 import './users/controllers/user.controller';
 
 const port = env.PORT;
@@ -55,6 +57,13 @@ server.setErrorConfig((app) => {
 });
 
 export default server.build().listen(port, () => {
+	if (env.NODE_ENV === 'development') {
+		const routeInfo = getRouteInfo(container);
+		console.log('================================');
+		console.log(prettyjson.render({ routes: routeInfo }));
+		console.log('================================');
+	}
+
 	console.log(`Server listening on port ${port}...`);
 	console.log(`Environment - ${env.NODE_ENV}`);
 	console.log('================================');

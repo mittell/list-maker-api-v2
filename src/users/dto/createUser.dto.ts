@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
 import { isEmpty } from '../../common/helpers/utils.helpers';
-import { IUserCreateDto } from '../interfaces/userCreateDto.interface';
+import { ICreateUserDto } from '../interfaces/createUserDto.interface';
 import { MappingError } from '../../common/types/error.types';
 
 @injectable()
-export class CreateUserDto implements IUserCreateDto {
+export class CreateUserDto implements ICreateUserDto {
 	private _id!: string;
 	private _email!: string;
 	private _username!: string;
@@ -31,7 +31,11 @@ export class CreateUserDto implements IUserCreateDto {
 		return this._password;
 	}
 
-	async mapFromRequest(model: any): Promise<IUserCreateDto> {
+	public set password(value: string) {
+		this._password = value;
+	}
+
+	async mapFromRequest(model: any): Promise<ICreateUserDto> {
 		let email: string = model.email;
 		let username: string = model.username;
 		let password: string = model.password;
