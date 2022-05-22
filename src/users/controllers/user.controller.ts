@@ -51,8 +51,8 @@ export class UserController
 					})
 				);
 			})
-			.then((dto) => {
-				return this.json(dto);
+			.then((returnDto) => {
+				return this.json(returnDto);
 			})
 			.catch((error) => {
 				return next(error);
@@ -71,8 +71,8 @@ export class UserController
 			.then(async (model) => {
 				return await new ReturnUserDto().mapFromModel(model);
 			})
-			.then((dto) => {
-				return this.json(dto);
+			.then((returnDto) => {
+				return this.json(returnDto);
 			})
 			.catch((error) => {
 				return next(error);
@@ -88,14 +88,14 @@ export class UserController
 	): Promise<IHttpActionResult | void> {
 		return await new CreateUserDto()
 			.mapFromRequest(body)
-			.then(async (dto) => {
-				return this._userService.createUser(dto);
+			.then(async (requestDto) => {
+				return this._userService.createUser(requestDto);
 			})
 			.then((model) => {
 				return new ReturnUserDto().mapFromModel(model);
 			})
-			.then((dto) => {
-				return this.json(dto);
+			.then((returnDto) => {
+				return this.json(returnDto);
 			})
 			.catch((error) => {
 				return next(error);
@@ -112,14 +112,14 @@ export class UserController
 	): Promise<IHttpActionResult | void> {
 		return await new PutUserDto()
 			.mapFromRequest(id, body)
-			.then(async (dto) => {
-				return this._userService.updateUser(dto);
+			.then(async (requestDto) => {
+				return this._userService.updateUser(requestDto);
 			})
 			.then((model) => {
 				return new ReturnUserDto().mapFromModel(model);
 			})
-			.then((result) => {
-				return this.json(result);
+			.then((returnDto) => {
+				return this.json(returnDto);
 			})
 			.catch((error) => {
 				return next(error);
@@ -136,14 +136,14 @@ export class UserController
 	): Promise<IHttpActionResult | void> {
 		return await new PatchUserDto()
 			.mapFromRequest(id, body)
-			.then(async (dto) => {
-				return this._userService.updateUser(dto);
+			.then(async (requestDto) => {
+				return this._userService.updateUser(requestDto);
 			})
 			.then((model) => {
 				return new ReturnUserDto().mapFromModel(model);
 			})
-			.then((result) => {
-				return this.json(result);
+			.then((returnDto) => {
+				return this.json(returnDto);
 			})
 			.catch((error) => {
 				return next(error);
@@ -159,7 +159,7 @@ export class UserController
 	): Promise<IHttpActionResult | void> {
 		return await this._userService
 			.deleteUser(id)
-			.then((_dto) => {
+			.then(() => {
 				return this.ok();
 			})
 			.catch((error) => {
