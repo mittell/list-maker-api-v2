@@ -86,7 +86,7 @@ export class UserController
 		@response() _res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
-		return await new CreateUserDto()
+		return new CreateUserDto()
 			.mapFromRequest(body)
 			.then(async (requestDto) => {
 				return this._userService.createUser(requestDto);
@@ -110,7 +110,7 @@ export class UserController
 		@response() _res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
-		return await new PutUserDto()
+		return new PutUserDto()
 			.mapFromRequest(id, body)
 			.then(async (requestDto) => {
 				return this._userService.updateUser(requestDto);
@@ -134,7 +134,7 @@ export class UserController
 		@response() _res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
-		return await new PatchUserDto()
+		return new PatchUserDto()
 			.mapFromRequest(id, body)
 			.then(async (requestDto) => {
 				return this._userService.updateUser(requestDto);

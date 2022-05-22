@@ -23,24 +23,24 @@ export class UserService implements IUserService {
 	}
 
 	async getUserById(id: string): Promise<IUserModel> {
-		return await this._userDao.getById(id);
+		return this._userDao.getById(id);
 	}
 
 	async getUserByEmail(email: string): Promise<IUserModel> {
-		return await this._userDao.getByEmail(email);
+		return this._userDao.getByEmail(email);
 	}
 
 	async createUser(dto: IUserCreateDto): Promise<IUserModel> {
 		dto.id = uuid();
 		dto.password = await argon2.hash(dto.password);
-		return await this._userDao.create(dto);
+		return this._userDao.create(dto);
 	}
 
 	async updateUser(dto: IUserPutDto | IUserPatchDto): Promise<IUserModel> {
-		return await this._userDao.update(dto);
+		return this._userDao.update(dto);
 	}
 
 	async deleteUser(id: string): Promise<IUserModel> {
-		return await this._userDao.delete(id);
+		return this._userDao.delete(id);
 	}
 }
