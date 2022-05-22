@@ -5,7 +5,7 @@ const TYPES = {
 	IUserService: Symbol.for('IUserService'),
 	IUserController: Symbol.for('IUserController'),
 	IAuthController: Symbol.for('IAuthController'),
-	IMiddleware: Symbol.for('IMiddleware'),
+	IVerifyPasswordMiddleware: Symbol.for('IVerifyPasswordMiddleware'),
 };
 
 export { TYPES };

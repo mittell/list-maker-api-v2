@@ -1,4 +1,4 @@
-import { IContext } from '../context/context.interface';
+import { IContext } from '../../context/context.interface';
 import { ICreateDto } from './createDto.interface';
 import { IPatchDto } from './patchDto.interface';
 import { IPutDto } from './putDto.interface';

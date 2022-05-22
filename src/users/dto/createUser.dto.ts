@@ -31,6 +31,10 @@ export class CreateUserDto implements IUserCreateDto {
 		return this._password;
 	}
 
+	public set password(value: string) {
+		this._password = value;
+	}
+
 	async mapFromRequest(model: any): Promise<IUserCreateDto> {
 		let email: string = model.email;
 		let username: string = model.username;

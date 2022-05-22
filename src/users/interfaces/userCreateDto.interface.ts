@@ -1,4 +1,4 @@
-import { ICreateDto } from '../../common/interfaces/createDto.interface';
+import { ICreateDto } from '../../common/interfaces/base/createDto.interface';
 
 export interface IUserCreateDto extends ICreateDto {
 	get id(): string;
@@ -6,4 +6,5 @@ export interface IUserCreateDto extends ICreateDto {
 	get email(): string;
 	get username(): string;
 	get password(): string;
+	set password(value: string);
 }

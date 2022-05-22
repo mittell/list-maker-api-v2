@@ -1,4 +1,4 @@
-import { IPutDto } from '../../common/interfaces/putDto.interface';
+import { IPutDto } from '../../common/interfaces/base/putDto.interface';
 
 export interface IUserPutDto extends IPutDto {
 	get id(): string;

@@ -13,7 +13,8 @@ import { IUserController } from '../../users/interfaces/userController.interface
 import { UserController } from '../../users/controllers/user.controller';
 import { IAuthController } from '../../auth/interfaces/authController.interface';
 import { AuthController } from '../../auth/controllers/auth.controller';
-// import { IMiddleware } from '../interfaces/middleware.interface';
+import { IVerifyPasswordMiddleware } from '../interfaces/verifyPasswordMiddleware.interface';
+import { VerifyPasswordMiddleware } from '../middleware/verifyPassword.middleware';
 
 const container = new Container();
 
@@ -34,6 +35,8 @@ container.bind<IAuthController>(TYPES.IAuthController).to(AuthController);
 container.bind<IUserController>(TYPES.IUserController).to(UserController);
 
 // Middleware Binding
-// container.bind<IMiddleware>(TYPES.IMiddleware).to(ErrorMiddleware);
+container
+	.bind<IVerifyPasswordMiddleware>(TYPES.IVerifyPasswordMiddleware)
+	.to(VerifyPasswordMiddleware);
 
 export { container };

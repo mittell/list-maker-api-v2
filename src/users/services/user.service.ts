@@ -8,6 +8,7 @@ import { IUserCreateDto } from '../interfaces/userCreateDto.interface';
 import { IUserModel } from '../interfaces/userModel.interface';
 import { IUserPutDto } from '../interfaces/userPutDto.interface';
 import { IUserPatchDto } from '../interfaces/userPatchDto.interface';
+import argon2 from 'argon2';
 
 @injectable()
 export class UserService implements IUserService {
@@ -25,8 +26,13 @@ export class UserService implements IUserService {
 		return await this._userDao.getById(id);
 	}
 
+	async getUserByEmail(email: string): Promise<IUserModel> {
+		return await this._userDao.getByEmail(email);
+	}
+
 	async createUser(dto: IUserCreateDto): Promise<IUserModel> {
 		dto.id = uuid();
+		dto.password = await argon2.hash(dto.password);
 		return await this._userDao.create(dto);
 	}
 

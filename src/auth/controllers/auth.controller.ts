@@ -14,7 +14,7 @@ import {
 	IHttpActionResult,
 	next,
 } from 'inversify-express-utils';
-// import { TYPES } from '../../common/types/di.types';
+import { TYPES } from '../../common/types/di.types';
 import { IAuthController } from '../interfaces/authController.interface';
 import { ValidationError } from '../../common/types/error.types';
 
@@ -49,19 +49,16 @@ export class AuthController
 		super();
 	}
 
-	// NOTE - Assumed body contains AccessToken, and UserId was inserted into body of request
-	// via preceding middleware...
-
-	@httpPost('/login')
+	@httpPost('/login', TYPES.IVerifyPasswordMiddleware)
 	async login(
 		@requestBody() body: any,
 		@request() _req: Request,
-		@response() _res: Response,
+		@response() res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
 		await this.generateJsonWebToken(body)
 			.then((returnDto) => {
-				return this.json(returnDto);
+				return res.send(returnDto);
 			})
 			.catch((error) => {
 				return next(error);
@@ -72,41 +69,39 @@ export class AuthController
 	async refresh(
 		@requestBody() body: any,
 		@request() _req: Request,
-		@response() _res: Response,
+		@response() res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
 		await this.generateJsonWebToken(body)
 			.then((returnDto) => {
-				return this.json(returnDto);
+				return res.send(returnDto);
 			})
 			.catch((error) => {
 				return next(error);
 			});
 	}
 
+	// TODO - Move to AuthService?
 	async generateJsonWebToken(body: any): Promise<ITokenReturnDto> {
-		return new Promise((resolve, _reject) => {
-			try {
-				const tokenExpirationInSeconds = 36000;
-				const refreshId = body.userId + env.JWT_SECRET;
-				const salt = crypto.createSecretKey(crypto.randomBytes(16));
-				const hash = crypto
-					.createHmac('sha512', salt)
-					.update(refreshId)
-					.digest('base64');
-				body.refreshKey = salt.export();
+		try {
+			const tokenExpirationInSeconds = 36000;
+			const refreshId = body.userId + env.JWT_SECRET;
+			const salt = crypto.createSecretKey(crypto.randomBytes(16));
+			const hash = crypto
+				.createHmac('sha512', salt)
+				.update(refreshId)
+				.digest('base64');
+			body.refreshKey = salt.export();
 
-				const token = jwt.sign(body, env.JWT_SECRET, {
-					expiresIn: tokenExpirationInSeconds,
-				});
-
-				resolve(new TokenReturnDto(token, hash));
-			} catch (error) {
-				throw new ValidationError(
-					'Unable to generate JSON Web Token',
-					error
-				);
-			}
-		});
+			const token = jwt.sign(body, env.JWT_SECRET, {
+				expiresIn: tokenExpirationInSeconds,
+			});
+			return new TokenReturnDto(token, hash);
+		} catch (error) {
+			throw new ValidationError(
+				'Unable to generate JSON Web Token',
+				error
+			);
+		}
 	}
 }

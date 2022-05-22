@@ -31,6 +31,10 @@ export class UserDao implements IUserDao {
 		return this._schema.findOne({ _id: id }).exec();
 	}
 
+	async getByEmail(email: string): Promise<IUserModel> {
+		return this._schema.findOne({ _email: email }).exec();
+	}
+
 	async create(dto: IUserCreateDto): Promise<IUserModel> {
 		return await this._userModel.mapFromCreateDto(dto).then(async () => {
 			return this._schema

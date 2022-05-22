@@ -8,6 +8,8 @@ export interface IUserService {
 
 	getUserById(id: string): Promise<IUserModel>;
 
+	getUserByEmail(id: string): Promise<IUserModel>;
+
 	createUser(dto: IUserCreateDto): Promise<IUserModel>;
 
 	updateUser(dto: IUserPatchDto | IUserPutDto): Promise<IUserModel>;
