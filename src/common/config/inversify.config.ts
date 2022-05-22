@@ -11,6 +11,8 @@ import { IUserService } from '../../users/interfaces/userService.interface';
 import { UserService } from '../../users/services/user.service';
 import { IUserController } from '../../users/interfaces/userController.interface';
 import { UserController } from '../../users/controllers/user.controller';
+import { IAuthController } from '../../auth/interfaces/authController.interface';
+import { AuthController } from '../../auth/controllers/auth.controller';
 // import { IMiddleware } from '../interfaces/middleware.interface';
 
 const container = new Container();
@@ -28,6 +30,7 @@ container.bind<IUserDao>(TYPES.IUserDao).to(UserDao);
 container.bind<IUserService>(TYPES.IUserService).to(UserService);
 
 // Controller Binding
+container.bind<IAuthController>(TYPES.IAuthController).to(AuthController);
 container.bind<IUserController>(TYPES.IUserController).to(UserController);
 
 // Middleware Binding

@@ -6,21 +6,21 @@ export interface IUserController {
 		req: Request,
 		res: Response,
 		next: NextFunction
-	): Promise<void | IHttpActionResult>;
+	): Promise<IHttpActionResult | void>;
 
 	getUserById(
 		id: string,
 		req: Request,
 		res: Response,
 		next: NextFunction
-	): Promise<void | IHttpActionResult>;
+	): Promise<IHttpActionResult | void>;
 
 	createUser(
 		body: any,
 		req: Request,
 		res: Response,
 		next: NextFunction
-	): Promise<void | IHttpActionResult>;
+	): Promise<IHttpActionResult | void>;
 
 	putUserById(
 		id: string,
@@ -28,7 +28,7 @@ export interface IUserController {
 		req: Request,
 		res: Response,
 		next: NextFunction
-	): Promise<void | IHttpActionResult>;
+	): Promise<IHttpActionResult | void>;
 
 	patchUserById(
 		id: string,
@@ -36,12 +36,12 @@ export interface IUserController {
 		req: Request,
 		res: Response,
 		next: NextFunction
-	): Promise<void | IHttpActionResult>;
+	): Promise<IHttpActionResult | void>;
 
 	deleteUserById(
 		id: string,
 		req: Request,
 		res: Response,
 		next: NextFunction
-	): Promise<void | IHttpActionResult>;
+	): Promise<IHttpActionResult | void>;
 }
