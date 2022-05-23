@@ -30,9 +30,17 @@ import { ListModel } from '../../lists/models/list.model';
 import { IListDao } from '../../lists/interfaces/listDao.interface';
 import { ListDao } from '../../lists/dao/list.dao';
 import { IListService } from '../../lists/interfaces/listService.interface';
-import { ListService } from '../../lists/services/user.service';
+import { ListService } from '../../lists/services/list.service';
 import { IListController } from '../../lists/interfaces/listController.interface';
 import { ListController } from '../../lists/controllers/list.controller';
+import { IListItemModel } from '../../listItems/interfaces/listItemModel.interface';
+import { ListItemModel } from '../../listItems/models/listItem.model';
+import { IListItemDao } from '../../listItems/interfaces/listItemDao.interface';
+import { ListItemDao } from '../../listItems/dao/listItem.dao';
+import { IListItemService } from '../../listItems/interfaces/listItemService.interface';
+import { ListItemService } from '../../listItems/services/listItem.service';
+import { IListItemController } from '../../listItems/interfaces/listItemController.interface';
+import { ListItemController } from '../../listItems/controllers/listItem.controller';
 
 const container = new Container();
 
@@ -42,20 +50,26 @@ container.bind<IContext>(TYPES.IContext).to(DbContext).inSingletonScope();
 // Model Binding
 container.bind<IUserModel>(TYPES.IUserModel).to(UserModel);
 container.bind<IListModel>(TYPES.IListModel).to(ListModel);
+container.bind<IListItemModel>(TYPES.IListItemModel).to(ListItemModel);
 
 // DAO Binding
 container.bind<IUserDao>(TYPES.IUserDao).to(UserDao);
 container.bind<IListDao>(TYPES.IListDao).to(ListDao);
+container.bind<IListItemDao>(TYPES.IListItemDao).to(ListItemDao);
 
 // Service Binding
 container.bind<IAuthService>(TYPES.IAuthService).to(AuthService);
 container.bind<IUserService>(TYPES.IUserService).to(UserService);
 container.bind<IListService>(TYPES.IListService).to(ListService);
+container.bind<IListItemService>(TYPES.IListItemService).to(ListItemService);
 
 // Controller Binding
 container.bind<IAuthController>(TYPES.IAuthController).to(AuthController);
 container.bind<IUserController>(TYPES.IUserController).to(UserController);
 container.bind<IListController>(TYPES.IListController).to(ListController);
+container
+	.bind<IListItemController>(TYPES.IListItemController)
+	.to(ListItemController);
 
 // Middleware Binding
 container
