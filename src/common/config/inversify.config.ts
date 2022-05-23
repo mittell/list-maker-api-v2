@@ -25,6 +25,14 @@ import { IVerifyRefreshTokenMiddleware } from '../../auth/interfaces/verifyRefre
 import { VerifyRefreshTokenMiddleware } from '../../auth/middleware/verifyRefreshToken.middleware';
 import { IAuthService } from '../../auth/interfaces/authServices.interface';
 import { AuthService } from '../../auth/services/auth.service';
+import { IListModel } from '../../lists/interfaces/listModel.interface';
+import { ListModel } from '../../lists/models/list.model';
+import { IListDao } from '../../lists/interfaces/listDao.interface';
+import { ListDao } from '../../lists/dao/list.dao';
+import { IListService } from '../../lists/interfaces/listService.interface';
+import { ListService } from '../../lists/services/user.service';
+import { IListController } from '../../lists/interfaces/listController.interface';
+import { ListController } from '../../lists/controllers/list.controller';
 
 const container = new Container();
 
@@ -33,17 +41,21 @@ container.bind<IContext>(TYPES.IContext).to(DbContext).inSingletonScope();
 
 // Model Binding
 container.bind<IUserModel>(TYPES.IUserModel).to(UserModel);
+container.bind<IListModel>(TYPES.IListModel).to(ListModel);
 
 // DAO Binding
 container.bind<IUserDao>(TYPES.IUserDao).to(UserDao);
+container.bind<IListDao>(TYPES.IListDao).to(ListDao);
 
 // Service Binding
 container.bind<IAuthService>(TYPES.IAuthService).to(AuthService);
 container.bind<IUserService>(TYPES.IUserService).to(UserService);
+container.bind<IListService>(TYPES.IListService).to(ListService);
 
 // Controller Binding
 container.bind<IAuthController>(TYPES.IAuthController).to(AuthController);
 container.bind<IUserController>(TYPES.IUserController).to(UserController);
+container.bind<IListController>(TYPES.IListController).to(ListController);
 
 // Middleware Binding
 container
