@@ -17,6 +17,7 @@ import {
 import './auth/controllers/auth.controller';
 import './users/controllers/user.controller';
 import './lists/controllers/list.controller';
+import './listItems/controllers/listItem.controller';
 
 const port = env.PORT;
 

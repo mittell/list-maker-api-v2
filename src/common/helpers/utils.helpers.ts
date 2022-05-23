@@ -1,4 +1,4 @@
-export function isEmpty(value: string | undefined): boolean {
+export function isEmpty(value: string | boolean | undefined): boolean {
 	if (value === '' || value === undefined || value === null) {
 		return true;
 	}
