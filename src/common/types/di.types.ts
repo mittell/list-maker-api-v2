@@ -4,17 +4,21 @@ const TYPES = {
 
 	// Models
 	IUserModel: Symbol.for('IUserModel'),
+	IListModel: Symbol.for('IListModel'),
 
 	// DAOs
 	IUserDao: Symbol.for('IUserDao'),
+	IListDao: Symbol.for('IListDao'),
 
 	// Services
 	IAuthService: Symbol.for('IAuthService'),
 	IUserService: Symbol.for('IUserService'),
+	IListService: Symbol.for('IListService'),
 
 	// Controllers
-	IUserController: Symbol.for('IUserController'),
 	IAuthController: Symbol.for('IAuthController'),
+	IUserController: Symbol.for('IUserController'),
+	IListController: Symbol.for('IListController'),
 
 	// Middleware
 	IVerifyPasswordMiddleware: Symbol.for('IVerifyPasswordMiddleware'),
