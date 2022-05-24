@@ -60,25 +60,27 @@ export class ListController
 			: undefined;
 		let parsedPage: number | undefined = page ? parseInt(page) : undefined;
 
-		return await this._listService
-			// Get Lists by UserId
-			.getListsByUserId(userId, parsedLimit, parsedPage)
-			// Map each List to a DTO, and return as an Array
-			.then((lists) => {
-				return Promise.all(
-					Array.from(lists, async (list) => {
-						return await new ReturnListDto().mapFromModel(list);
-					})
-				);
-			})
-			// Return DTO
-			.then((returnDto) => {
-				return this.json(returnDto);
-			})
-			// Catch and return Error
-			.catch((error) => {
-				return next(error);
-			});
+		return (
+			this._listService
+				// Get Lists by UserId
+				.getListsByUserId(userId, parsedLimit, parsedPage)
+				// Map each List to a DTO, and return as an Array
+				.then((lists) => {
+					return Promise.all(
+						Array.from(lists, async (list) => {
+							return await new ReturnListDto().mapFromModel(list);
+						})
+					);
+				})
+				// Return DTO
+				.then((returnDto) => {
+					return this.json(returnDto);
+				})
+				// Catch and return Error
+				.catch((error) => {
+					return next(error);
+				})
+		);
 	}
 
 	@httpGet('/:id', TYPES.IVerifyJsonWebTokenMiddleware)
@@ -109,11 +111,11 @@ export class ListController
 						// Get ListItems by ListId
 						.getListItemsByListId(listDto.id)
 						// Map each ListItem to a DTO, and return as an Array
-						.then(async (listItems) => {
-							return await Promise.all(
-								Array.from(listItems, async (listItem) => {
-									return await new ReturnListItemDto().mapFromModel(
-										listItem
+						.then(async (items) => {
+							return Promise.all(
+								Array.from(items, async (item) => {
+									return new ReturnListItemDto().mapFromModel(
+										item
 									);
 								})
 							);

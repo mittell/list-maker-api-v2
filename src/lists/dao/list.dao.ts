@@ -62,7 +62,7 @@ export class ListDao implements IListDao {
 	}
 
 	async create(dto: ICreateListDto): Promise<IListModel> {
-		return await this._listModel.mapFromCreateDto(dto).then(async () => {
+		return this._listModel.mapFromCreateDto(dto).then(async () => {
 			return this._schema
 				.create({
 					...this._listModel,
@@ -74,7 +74,7 @@ export class ListDao implements IListDao {
 	}
 
 	async update(dto: IPutListDto | IPatchListDto): Promise<IListModel> {
-		return await this._listModel.mapFromUpdateDto(dto).then(async () => {
+		return this._listModel.mapFromUpdateDto(dto).then(async () => {
 			return this._schema
 				.findOneAndUpdate({ _id: dto.id }, { $set: dto }, { new: true })
 				.exec();

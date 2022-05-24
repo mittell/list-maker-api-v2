@@ -46,21 +46,23 @@ export class ListItemController
 		// Get UserId from validated JWT
 		let userId = body.jwt.userId;
 
-		return await this._listItemService
-			// Get ListItem by Id
-			.getListItemByIdAndUserId(id, userId)
-			// Map ListItem to DTO
-			.then(async (listItem) => {
-				return await new ReturnListItemDto().mapFromModel(listItem);
-			})
-			// Return DTO
-			.then((returnDto) => {
-				return this.json(returnDto);
-			})
-			// Catch and return Error
-			.catch((error) => {
-				return next(error);
-			});
+		return (
+			this._listItemService
+				// Get ListItem by Id
+				.getListItemByIdAndUserId(id, userId)
+				// Map ListItem to DTO
+				.then(async (listItem) => {
+					return new ReturnListItemDto().mapFromModel(listItem);
+				})
+				// Return DTO
+				.then((returnDto) => {
+					return this.json(returnDto);
+				})
+				// Catch and return Error
+				.catch((error) => {
+					return next(error);
+				})
+		);
 	}
 
 	@httpPost('/')
@@ -195,16 +197,18 @@ export class ListItemController
 			return next(new NotFoundError());
 		}
 
-		return await this._listItemService
-			// Delete ListItem by Id
-			.deleteListItem(id)
-			// Return OK Response
-			.then(() => {
-				return this.ok();
-			})
-			// Catch and return Error
-			.catch((error) => {
-				return next(error);
-			});
+		return (
+			this._listItemService
+				// Delete ListItem by Id
+				.deleteListItem(id)
+				// Return OK Response
+				.then(() => {
+					return this.ok();
+				})
+				// Catch and return Error
+				.catch((error) => {
+					return next(error);
+				})
+		);
 	}
 }

@@ -46,7 +46,7 @@ export class UserController
 			.then((userList) => {
 				return Promise.all(
 					Array.from(userList, async (user) => {
-						return await new ReturnUserDto().mapFromModel(user);
+						return new ReturnUserDto().mapFromModel(user);
 					})
 				);
 			})
@@ -74,7 +74,7 @@ export class UserController
 			.getUserById(id)
 			// Map to DTO
 			.then(async (user) => {
-				return await new ReturnUserDto().mapFromModel(user);
+				return new ReturnUserDto().mapFromModel(user);
 			})
 			// Return DTO
 			.then((dto) => {
