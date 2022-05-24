@@ -3,6 +3,8 @@ import { IReturnListItemDto } from '../../listItems/interfaces/returnListItemDto
 
 export interface IReturnListDto extends IReturnDto {
 	get id(): string;
+
 	get listItems(): IReturnListItemDto[];
+	
 	set listItems(items: IReturnListItemDto[]);
 }
