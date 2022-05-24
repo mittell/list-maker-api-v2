@@ -27,7 +27,9 @@ const TYPES = {
 	// Middleware
 	IVerifyPasswordMiddleware: Symbol.for('IVerifyPasswordMiddleware'),
 	IVerifyJsonWebTokenMiddleware: Symbol.for('IVerifyJsonWebTokenMiddleware'),
-	IVerifyPermissionMiddleware: Symbol.for('IVerifyPermissionMiddleware'),
+	IVerifyUserPermissionMiddleware: Symbol.for(
+		'IVerifyUserPermissionMiddleware'
+	),
 	IVerifyRefreshBodyMiddleware: Symbol.for('IVerifyRefreshBodyMiddleware'),
 	IVerifyRefreshTokenMiddleware: Symbol.for('IVerifyRefreshTokenMiddleware'),
 };

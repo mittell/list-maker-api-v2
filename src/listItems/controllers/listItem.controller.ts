@@ -1,12 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction } from 'express';
 import { inject } from 'inversify';
 import 'reflect-metadata';
 import {
 	controller,
-	request,
 	requestParam,
 	requestBody,
-	response,
 	httpGet,
 	httpPost,
 	httpPut,
@@ -23,6 +21,7 @@ import { ReturnListItemDto } from '../dto/returnListItem.dto';
 import { CreateListItemDto } from '../dto/createListItem.dto';
 import { PutListItemDto } from '../dto/putListItem.dto';
 import { PatchListItemDto } from '../dto/patchListItem.dto';
+import { NotFoundError } from '../../common/types/error.types';
 
 @controller('/listItems')
 export class ListItemController
@@ -38,51 +37,27 @@ export class ListItemController
 		this._listItemService = listItemService;
 	}
 
-	@httpGet('/', TYPES.IVerifyJsonWebTokenMiddleware)
-	async getListItems(
-		@requestBody() _body: any,
-		@request() _req: Request,
-		@response() _res: Response,
-		@next() next: NextFunction
-	): Promise<IHttpActionResult | void> {
-		// let userId = body.jwt.userId;
-
-		return await this._listItemService
-			.getListItems()
-			.then((model) => {
-				return Promise.all(
-					Array.from(model, async (item) => {
-						return await new ReturnListItemDto().mapFromModel(item);
-					})
-				);
-			})
-			.then((returnDto) => {
-				return this.json(returnDto);
-			})
-			.catch((error) => {
-				return next(error);
-			});
-	}
-
-	@httpGet(
-		'/:id',
-		TYPES.IVerifyJsonWebTokenMiddleware,
-		TYPES.IVerifyPermissionMiddleware
-	)
+	@httpGet('/:id', TYPES.IVerifyJsonWebTokenMiddleware)
 	async getListItemById(
 		@requestParam('id') id: string,
-		@request() _req: Request,
-		@response() _res: Response,
+		@requestBody() body: any,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
+		// Get UserId from validated JWT
+		let userId = body.jwt.userId;
+
 		return await this._listItemService
-			.getListItemById(id)
-			.then(async (model) => {
-				return await new ReturnListItemDto().mapFromModel(model);
+			// Get ListItem by Id
+			.getListItemByIdAndUserId(id, userId)
+			// Map ListItem to DTO
+			.then(async (listItem) => {
+				return await new ReturnListItemDto().mapFromModel(listItem);
 			})
+			// Return DTO
 			.then((returnDto) => {
 				return this.json(returnDto);
 			})
+			// Catch and return Error
 			.catch((error) => {
 				return next(error);
 			});
@@ -91,100 +66,143 @@ export class ListItemController
 	@httpPost('/')
 	async createListItem(
 		@requestBody() body: any,
-		@request() _req: Request,
-		@response() _res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
+		// Get UserId from validated JWT
 		let userId = body.jwt.userId;
-		return new CreateListItemDto()
-			.mapFromRequest(body)
-			.then(async (requestDto) => {
-				requestDto.userId = userId;
-				return this._listItemService.createListItem(requestDto);
-			})
-			.then((model) => {
-				return new ReturnListItemDto().mapFromModel(model);
-			})
-			.then((returnDto) => {
-				return this.json(returnDto);
-			})
-			.catch((error) => {
-				return next(error);
-			});
+
+		return (
+			new CreateListItemDto()
+				// Create DTO from Request
+				.mapFromRequest(body)
+				// Create ListItem from DTO
+				.then(async (requestDto) => {
+					requestDto.userId = userId;
+					return this._listItemService.createListItem(requestDto);
+				})
+				// Map new ListItem to DTO
+				.then((listItem) => {
+					return new ReturnListItemDto().mapFromModel(listItem);
+				})
+				// Return DTO
+				.then((returnDto) => {
+					return this.json(returnDto);
+				})
+				// Catch and return Error
+				.catch((error) => {
+					return next(error);
+				})
+		);
 	}
 
-	@httpPut(
-		'/:id',
-		TYPES.IVerifyJsonWebTokenMiddleware,
-		TYPES.IVerifyPermissionMiddleware
-	)
+	@httpPut('/:id', TYPES.IVerifyJsonWebTokenMiddleware)
 	async putListItemById(
 		@requestParam('id') id: string,
 		@requestBody() body: any,
-		@request() _req: Request,
-		@response() _res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
-		return new PutListItemDto()
-			.mapFromRequest(id, body)
-			.then(async (requestDto) => {
-				return this._listItemService.updateListItem(requestDto);
-			})
-			.then((model) => {
-				return new ReturnListItemDto().mapFromModel(model);
-			})
-			.then((returnDto) => {
-				return this.json(returnDto);
-			})
-			.catch((error) => {
-				return next(error);
-			});
+		// Get UserId from validated JWT
+		let userId = body.jwt.userId;
+
+		// Check if ListItem exists
+		let existingListItem =
+			await this._listItemService.getListItemByIdAndUserId(id, userId);
+
+		// If ListItem does not exist, return NotFoundError
+		if (!existingListItem) {
+			return next(new NotFoundError());
+		}
+
+		return (
+			new PutListItemDto()
+				// Create DTO from Request
+				.mapFromRequest(id, body)
+				// Update ListItem from DTO
+				.then(async (requestDto) => {
+					return this._listItemService.updateListItem(requestDto);
+				})
+				// Map updated ListItem to DTO
+				.then((listItem) => {
+					return new ReturnListItemDto().mapFromModel(listItem);
+				})
+				// Return DTO
+				.then((returnDto) => {
+					return this.json(returnDto);
+				})
+				// Catch and return Error
+				.catch((error) => {
+					return next(error);
+				})
+		);
 	}
 
-	@httpPatch(
-		'/:id',
-		TYPES.IVerifyJsonWebTokenMiddleware,
-		TYPES.IVerifyPermissionMiddleware
-	)
+	@httpPatch('/:id', TYPES.IVerifyJsonWebTokenMiddleware)
 	async patchListItemById(
 		@requestParam('id') id: string,
 		@requestBody() body: any,
-		@request() _req: Request,
-		@response() _res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
-		return new PatchListItemDto()
-			.mapFromRequest(id, body)
-			.then(async (requestDto) => {
-				return this._listItemService.updateListItem(requestDto);
-			})
-			.then((model) => {
-				return new ReturnListItemDto().mapFromModel(model);
-			})
-			.then((returnDto) => {
-				return this.json(returnDto);
-			})
-			.catch((error) => {
-				return next(error);
-			});
+		// Get UserId from validated JWT
+		let userId = body.jwt.userId;
+
+		// Check if ListItem exists
+		let existingListItem =
+			await this._listItemService.getListItemByIdAndUserId(id, userId);
+
+		// If ListItem does not exist, return NotFoundError
+		if (!existingListItem) {
+			return next(new NotFoundError());
+		}
+
+		return (
+			new PatchListItemDto()
+				// Create DTO from Request
+				.mapFromRequest(id, body)
+				// Update ListItem from DTO
+				.then(async (requestDto) => {
+					return this._listItemService.updateListItem(requestDto);
+				})
+				// Map updated ListItem to DTO
+				.then((listItem) => {
+					return new ReturnListItemDto().mapFromModel(listItem);
+				})
+				// Return DTO
+				.then((returnDto) => {
+					return this.json(returnDto);
+				})
+				// Catch and return Error
+				.catch((error) => {
+					return next(error);
+				})
+		);
 	}
 
-	@httpDelete(
-		'/:id',
-		TYPES.IVerifyJsonWebTokenMiddleware,
-		TYPES.IVerifyPermissionMiddleware
-	)
+	@httpDelete('/:id', TYPES.IVerifyJsonWebTokenMiddleware)
 	async deleteListItemById(
 		@requestParam('id') id: string,
-		@request() _req: Request,
-		@response() _res: Response,
+		@requestBody() body: any,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
+		// Get UserId from validated JWT
+		let userId = body.jwt.userId;
+
+		// Check if ListItem exists
+		let existingListItem =
+			await this._listItemService.getListItemByIdAndUserId(id, userId);
+
+		// If ListItem does not exist, return NotFoundError
+		if (!existingListItem) {
+			return next(new NotFoundError());
+		}
+
 		return await this._listItemService
+			// Delete ListItem by Id
 			.deleteListItem(id)
+			// Return OK Response
 			.then(() => {
 				return this.ok();
 			})
+			// Catch and return Error
 			.catch((error) => {
 				return next(error);
 			});

@@ -17,8 +17,8 @@ import { IVerifyPasswordMiddleware } from '../../auth/interfaces/verifyPasswordM
 import { VerifyPasswordMiddleware } from '../../auth/middleware/verifyPassword.middleware';
 import { IVerifyJsonWebTokenMiddleware } from '../../auth/interfaces/verifyJsonWebTokenMiddleware.interface';
 import { VerifyJsonWebTokenMiddleware } from '../../auth/middleware/verifyJsonWebToken.middleware';
-import { IVerifyPermissionMiddleware } from '../../auth/interfaces/verifyPermissionMiddleware.interface';
-import { VerifyPermissionMiddleware } from '../../auth/middleware/verifyPermission.middleware';
+import { IVerifyUserPermissionMiddleware } from '../../auth/interfaces/verifyUserPermissionMiddleware.interface';
+import { VerifyUserPermissionMiddleware } from '../../auth/middleware/verifyUserPermission.middleware';
 import { IVerifyRefreshBodyMiddleware } from '../../auth/interfaces/verifyRefreshBodyMiddleware.interface';
 import { VerifyRefreshBodyMiddleware } from '../../auth/middleware/verifyRefreshBody.middleware';
 import { IVerifyRefreshTokenMiddleware } from '../../auth/interfaces/verifyRefreshTokenMiddleware';
@@ -79,8 +79,10 @@ container
 	.bind<IVerifyJsonWebTokenMiddleware>(TYPES.IVerifyJsonWebTokenMiddleware)
 	.to(VerifyJsonWebTokenMiddleware);
 container
-	.bind<IVerifyPermissionMiddleware>(TYPES.IVerifyPermissionMiddleware)
-	.to(VerifyPermissionMiddleware);
+	.bind<IVerifyUserPermissionMiddleware>(
+		TYPES.IVerifyUserPermissionMiddleware
+	)
+	.to(VerifyUserPermissionMiddleware);
 container
 	.bind<IVerifyRefreshBodyMiddleware>(TYPES.IVerifyRefreshBodyMiddleware)
 	.to(VerifyRefreshBodyMiddleware);

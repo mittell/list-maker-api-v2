@@ -94,6 +94,12 @@ export async function handleErrors(
 			name: error.name,
 			...(error.message ? { message: 'Invalid JSON content' } : {}),
 		});
+	} else if (error instanceof TypeError) {
+		res.status(500).json({
+			status: 500,
+			name: error.name,
+			...(error.message ? { message: 'Unexpected Data Type' } : {}),
+		});
 	} else if (error instanceof NotFoundError) {
 		res.status(404).json({
 			status: 404,

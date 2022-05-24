@@ -1,12 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction } from 'express';
 import { inject } from 'inversify';
 import 'reflect-metadata';
 import {
 	controller,
-	request,
 	requestParam,
 	requestBody,
-	response,
 	httpGet,
 	httpPost,
 	httpPut,
@@ -24,6 +22,10 @@ import { ReturnListDto } from '../dto/returnList.dto';
 import { CreateListDto } from '../dto/createList.dto';
 import { PutListDto } from '../dto/putList.dto';
 import { PatchListDto } from '../dto/patchList.dto';
+import { IListItemService } from '../../listItems/interfaces/listItemService.interface';
+import { ReturnListItemDto } from '../../listItems/dto/returnListItem.dto';
+import { isEmpty } from '../../common/helpers/utils.helpers';
+import { NotFoundError } from '../../common/types/error.types';
 
 @controller('/lists')
 export class ListController
@@ -31,166 +33,254 @@ export class ListController
 	implements IListController
 {
 	private _listService: IListService;
+	private _listItemService: IListItemService;
 
-	public constructor(@inject(TYPES.IListService) listService: IListService) {
+	public constructor(
+		@inject(TYPES.IListService) listService: IListService,
+		@inject(TYPES.IListItemService) listItemService: IListItemService
+	) {
 		super();
 		this._listService = listService;
+		this._listItemService = listItemService;
 	}
 
 	@httpGet('/', TYPES.IVerifyJsonWebTokenMiddleware)
 	async getLists(
+		@queryParam('page') page: string | undefined,
+		@queryParam('limit') limit: string | undefined,
 		@requestBody() body: any,
-		@queryParam() page: string | undefined,
-		@queryParam() limit: string | undefined,
-		@request() _req: Request,
-		@response() _res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
-		let userId = body.jwt.userId;
+		// Get UserId from validated JWT
+		let userId: string = body.jwt.userId;
+
+		// Parse submitted Limit and Page values
 		let parsedLimit: number | undefined = limit
 			? parseInt(limit)
 			: undefined;
 		let parsedPage: number | undefined = page ? parseInt(page) : undefined;
 
 		return await this._listService
+			// Get Lists by UserId
 			.getListsByUserId(userId, parsedLimit, parsedPage)
-			.then((model) => {
+			// Map each List to a DTO, and return as an Array
+			.then((lists) => {
 				return Promise.all(
-					Array.from(model, async (item) => {
-						return await new ReturnListDto().mapFromModel(item);
+					Array.from(lists, async (list) => {
+						return await new ReturnListDto().mapFromModel(list);
 					})
 				);
 			})
+			// Return DTO
 			.then((returnDto) => {
 				return this.json(returnDto);
 			})
+			// Catch and return Error
 			.catch((error) => {
 				return next(error);
 			});
 	}
 
-	@httpGet(
-		'/:id',
-		TYPES.IVerifyJsonWebTokenMiddleware,
-		TYPES.IVerifyPermissionMiddleware
-	)
+	@httpGet('/:id', TYPES.IVerifyJsonWebTokenMiddleware)
 	async getListById(
 		@requestParam('id') id: string,
-		@request() _req: Request,
-		@response() _res: Response,
+		@queryParam('listItems') listItems: string,
+		@requestBody() body: any,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
+		// Get UserId from validated JWT
+		let userId: string = body.jwt.userId;
+
+		// Parse submitted ListItems value
+		let parsedListItems =
+			!isEmpty(listItems) && listItems.toLowerCase() === 'true'
+				? true
+				: false;
+
 		return await this._listService
-			.getListById(id)
-			.then(async (model) => {
-				return await new ReturnListDto().mapFromModel(model);
+			// Get List by Id
+			.getListByIdAndUserId(id, userId)
+			// Map List to DTO
+			.then(async (list) => {
+				let listDto = await new ReturnListDto().mapFromModel(list);
+				// Check for parsed ListItems value
+				if (parsedListItems) {
+					await this._listItemService
+						// Get ListItems by ListId
+						.getListItemsByListId(listDto.id)
+						// Map each ListItem to a DTO, and return as an Array
+						.then(async (listItems) => {
+							return await Promise.all(
+								Array.from(listItems, async (listItem) => {
+									return await new ReturnListItemDto().mapFromModel(
+										listItem
+									);
+								})
+							);
+						})
+						// Add ListItems to List DTO
+						.then((returnDto) => {
+							listDto.listItems = returnDto;
+						});
+				}
+				return listDto;
 			})
+			// Return DTO
 			.then((returnDto) => {
 				return this.json(returnDto);
 			})
+			// Catch and return Error
 			.catch((error) => {
 				return next(error);
 			});
 	}
 
-	@httpPost('/')
+	@httpPost('/', TYPES.IVerifyJsonWebTokenMiddleware)
 	async createList(
 		@requestBody() body: any,
-		@request() _req: Request,
-		@response() _res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
+		// Get UserId from validated JWT
 		let userId = body.jwt.userId;
 
-		return new CreateListDto()
-			.mapFromRequest(body)
-			.then(async (requestDto) => {
-				requestDto.userId = userId;
-				return this._listService.createList(requestDto);
-			})
-			.then((model) => {
-				return new ReturnListDto().mapFromModel(model);
-			})
-			.then((returnDto) => {
-				return this.json(returnDto);
-			})
-			.catch((error) => {
-				return next(error);
-			});
+		return (
+			new CreateListDto()
+				// Create DTO from Request
+				.mapFromRequest(body)
+				// Create List from DTO
+				.then(async (requestDto) => {
+					requestDto.userId = userId;
+					return this._listService.createList(requestDto);
+				})
+				// Map new List to DTO
+				.then((list) => {
+					return new ReturnListDto().mapFromModel(list);
+				})
+				// Return DTO
+				.then((returnDto) => {
+					return this.json(returnDto);
+				})
+				// Catch and return Error
+				.catch((error) => {
+					return next(error);
+				})
+		);
 	}
 
-	@httpPut(
-		'/:id',
-		TYPES.IVerifyJsonWebTokenMiddleware,
-		TYPES.IVerifyPermissionMiddleware
-	)
+	@httpPut('/:id', TYPES.IVerifyJsonWebTokenMiddleware)
 	async putListById(
 		@requestParam('id') id: string,
 		@requestBody() body: any,
-		@request() _req: Request,
-		@response() _res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
-		return new PutListDto()
-			.mapFromRequest(id, body)
-			.then(async (requestDto) => {
-				return this._listService.updateList(requestDto);
-			})
-			.then((model) => {
-				return new ReturnListDto().mapFromModel(model);
-			})
-			.then((returnDto) => {
-				return this.json(returnDto);
-			})
-			.catch((error) => {
-				return next(error);
-			});
+		// Get UserId from validated JWT
+		let userId: string = body.jwt.userId;
+
+		// Check if List exists
+		let existingList = await this._listService.getListByIdAndUserId(
+			id,
+			userId
+		);
+
+		// If List does not exist, return NotFoundError
+		if (!existingList) {
+			return next(new NotFoundError());
+		}
+
+		return (
+			new PutListDto()
+				// Create DTO from Request
+				.mapFromRequest(id, body)
+				// Update List from DTO
+				.then(async (requestDto) => {
+					return this._listService.updateList(requestDto);
+				})
+				// Map updated List to DTO
+				.then((list) => {
+					return new ReturnListDto().mapFromModel(list);
+				})
+				// Return DTO
+				.then((returnDto) => {
+					return this.json(returnDto);
+				})
+				// Catch and return Error
+				.catch((error) => {
+					return next(error);
+				})
+		);
 	}
 
-	@httpPatch(
-		'/:id',
-		TYPES.IVerifyJsonWebTokenMiddleware,
-		TYPES.IVerifyPermissionMiddleware
-	)
+	@httpPatch('/:id', TYPES.IVerifyJsonWebTokenMiddleware)
 	async patchListById(
 		@requestParam('id') id: string,
 		@requestBody() body: any,
-		@request() _req: Request,
-		@response() _res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
-		return new PatchListDto()
-			.mapFromRequest(id, body)
-			.then(async (requestDto) => {
-				return this._listService.updateList(requestDto);
-			})
-			.then((model) => {
-				return new ReturnListDto().mapFromModel(model);
-			})
-			.then((returnDto) => {
-				return this.json(returnDto);
-			})
-			.catch((error) => {
-				return next(error);
-			});
+		// Get UserId from validated JWT
+		let userId: string = body.jwt.userId;
+
+		// Check if List exists
+		let existingList = await this._listService.getListByIdAndUserId(
+			id,
+			userId
+		);
+
+		// If List does not exist, return NotFoundError
+		if (!existingList) {
+			return next(new NotFoundError());
+		}
+
+		return (
+			new PatchListDto()
+				// Create DTO from Request
+				.mapFromRequest(id, body)
+				// Update List from DTO
+				.then(async (requestDto) => {
+					return this._listService.updateList(requestDto);
+				})
+				// Map updated List to DTO
+				.then((list) => {
+					return new ReturnListDto().mapFromModel(list);
+				})
+				// Return DTO
+				.then((returnDto) => {
+					return this.json(returnDto);
+				})
+				// Catch and return Error
+				.catch((error) => {
+					return next(error);
+				})
+		);
 	}
 
-	@httpDelete(
-		'/:id',
-		TYPES.IVerifyJsonWebTokenMiddleware,
-		TYPES.IVerifyPermissionMiddleware
-	)
+	@httpDelete('/:id', TYPES.IVerifyJsonWebTokenMiddleware)
 	async deleteListById(
 		@requestParam('id') id: string,
-		@request() _req: Request,
-		@response() _res: Response,
+		@requestBody() body: any,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
+		// Get UserId from validated JWT
+		let userId: string = body.jwt.userId;
+
+		// Check if List exists
+		let existingList = await this._listService.getListByIdAndUserId(
+			id,
+			userId
+		);
+
+		// If List does not exist, return NotFoundError
+		if (!existingList) {
+			return next(new NotFoundError());
+		}
+
 		return await this._listService
+			// Delete List by Id
 			.deleteList(id)
+			// Return OK Response
 			.then(() => {
 				return this.ok();
 			})
+			// Catch and return Error
 			.catch((error) => {
 				return next(error);
 			});

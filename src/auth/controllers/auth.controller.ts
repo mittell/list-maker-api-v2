@@ -1,10 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import { inject } from 'inversify';
 import 'reflect-metadata';
 
 import {
 	controller,
-	request,
 	requestBody,
 	response,
 	httpPost,
@@ -31,15 +30,17 @@ export class AuthController
 	@httpPost('/login', TYPES.IVerifyPasswordMiddleware)
 	async login(
 		@requestBody() body: any,
-		@request() _req: Request,
 		@response() res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
 		await this._authService
+			// Generate JSON Web Token from Request and map to DTO
 			.generateJsonWebToken(body)
+			// Return DTO
 			.then((returnDto) => {
 				return res.send(returnDto);
 			})
+			// Catch and return Error
 			.catch((error) => {
 				return next(error);
 			});
@@ -53,15 +54,17 @@ export class AuthController
 	)
 	async refresh(
 		@requestBody() body: any,
-		@request() _req: Request,
 		@response() res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
 		await this._authService
+			// Generate JSON Web Token from Request and map to DTO
 			.generateJsonWebToken(body)
+			// Return DTO
 			.then((returnDto) => {
 				return res.send(returnDto);
 			})
+			// Catch and return Error
 			.catch((error) => {
 				return next(error);
 			});
