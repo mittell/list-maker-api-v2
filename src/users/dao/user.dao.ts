@@ -2,11 +2,11 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { TYPES } from '../../common/types/di.types';
 import { IContext } from '../../common/context/context.interface';
-import { IUserDao } from '../interfaces/userDao.interface';
-import { IUserModel } from '../interfaces/userModel.interface';
-import { ICreateUserDto } from '../interfaces/createUserDto.interface';
-import { IPutUserDto } from '../interfaces/putUserDto.interface';
-import { IPatchUserDto } from '../interfaces/patchUserDto.interface';
+import { IUserDao } from '../interfaces/dao/userDao.interface';
+import { IUserModel } from '../interfaces/model/userModel.interface';
+import { ICreateUserDto } from '../interfaces/dto/createUserDto.interface';
+import { IPutUserDto } from '../interfaces/dto/putUserDto.interface';
+import { IPatchUserDto } from '../interfaces/dto/patchUserDto.interface';
 
 @injectable()
 export class UserDao implements IUserDao {

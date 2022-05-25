@@ -2,12 +2,12 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { TYPES } from '../../common/types/di.types';
 import { v4 as uuid } from 'uuid';
-import { IListItemService } from '../interfaces/listItemService.interface';
-import { IListItemDao } from '../interfaces/listItemDao.interface';
-import { IListItemModel } from '../interfaces/listItemModel.interface';
-import { ICreateListItemDto } from '../interfaces/createListItemDto.interface';
-import { IPutListItemDto } from '../interfaces/putListItemDto.interface';
-import { IPatchListItemDto } from '../interfaces/patchListItemDto.interface';
+import { IListItemService } from '../interfaces/service/listItemService.interface';
+import { IListItemDao } from '../interfaces/dao/listItemDao.interface';
+import { IListItemModel } from '../interfaces/model/listItemModel.interface';
+import { ICreateListItemDto } from '../interfaces/dto/createListItemDto.interface';
+import { IPutListItemDto } from '../interfaces/dto/putListItemDto.interface';
+import { IPatchListItemDto } from '../interfaces/dto/patchListItemDto.interface';
 
 @injectable()
 export class ListItemService implements IListItemService {

@@ -15,8 +15,8 @@ import {
 	next,
 } from 'inversify-express-utils';
 import { TYPES } from '../../common/types/di.types';
-import { IListItemController } from '../interfaces/listItemController.interface';
-import { IListItemService } from '../interfaces/listItemService.interface';
+import { IListItemController } from '../interfaces/controller/listItemController.interface';
+import { IListItemService } from '../interfaces/service/listItemService.interface';
 import { ReturnListItemDto } from '../dto/returnListItem.dto';
 import { CreateListItemDto } from '../dto/createListItem.dto';
 import { PutListItemDto } from '../dto/putListItem.dto';

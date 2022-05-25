@@ -2,11 +2,11 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { TYPES } from '../../common/types/di.types';
 import { IContext } from '../../common/context/context.interface';
-import { IListModel } from '../interfaces/listModel.interface';
-import { IListDao } from '../interfaces/listDao.interface';
-import { ICreateListDto } from '../interfaces/createListDto.interface';
-import { IPutListDto } from '../interfaces/putListDto.interface';
-import { IPatchListDto } from '../interfaces/patchListDto.interface';
+import { IListModel } from '../interfaces/model/listModel.interface';
+import { IListDao } from '../interfaces/dao/listDao.interface';
+import { ICreateListDto } from '../interfaces/dto/createListDto.interface';
+import { IPutListDto } from '../interfaces/dto/putListDto.interface';
+import { IPatchListDto } from '../interfaces/dto/patchListDto.interface';
 
 @injectable()
 export class ListDao implements IListDao {

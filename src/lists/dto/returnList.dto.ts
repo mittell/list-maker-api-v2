@@ -2,9 +2,9 @@ import 'reflect-metadata';
 import { injectable } from 'inversify';
 import { isEmpty } from '../../common/helpers/utils.helpers';
 import { MappingError } from '../../common/types/error.types';
-import { IListModel } from '../interfaces/listModel.interface';
-import { IReturnListDto } from '../interfaces/returnListDto.interface';
-import { IReturnListItemDto } from '../../listItems/interfaces/returnListItemDto.interface';
+import { IListModel } from '../interfaces/model/listModel.interface';
+import { IReturnListDto } from '../interfaces/dto/returnListDto.interface';
+import { IReturnListItemDto } from '../../listItems/interfaces/dto/returnListItemDto.interface';
 
 @injectable()
 export class ReturnListDto implements IReturnListDto {

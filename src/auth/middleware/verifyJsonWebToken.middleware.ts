@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { Request, Response, NextFunction } from 'express';
 import { BaseMiddleware } from 'inversify-express-utils';
 import { UnauthenticatedError, UnauthorizedError } from '../../common/types/error.types';
-import { IVerifyJsonWebTokenMiddleware } from '../interfaces/verifyJsonWebTokenMiddleware.interface';
+import { IVerifyJsonWebTokenMiddleware } from '../interfaces/middleware/verifyJsonWebTokenMiddleware.interface';
 import jwt from 'jsonwebtoken';
 import env from '../../common/config/env.config';
 import { Jwt } from '../../common/types/jwt.type';

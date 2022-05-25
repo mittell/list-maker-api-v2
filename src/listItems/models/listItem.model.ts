@@ -3,7 +3,7 @@ import { injectable } from 'inversify';
 import { prop, getModelForClass } from '@typegoose/typegoose';
 import { isEmpty } from '../../common/helpers/utils.helpers';
 import { MappingError } from '../../common/types/error.types';
-import { IListItemModel } from '../interfaces/listItemModel.interface';
+import { IListItemModel } from '../interfaces/model/listItemModel.interface';
 import { CreateListItemDto } from '../dto/createListItem.dto';
 import { PutListItemDto } from '../dto/putListItem.dto';
 import { PatchListItemDto } from '../dto/patchListItem.dto';

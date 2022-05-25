@@ -16,13 +16,13 @@ import {
 	queryParam,
 } from 'inversify-express-utils';
 import { TYPES } from '../../common/types/di.types';
-import { IListController } from '../interfaces/listController.interface';
-import { IListService } from '../interfaces/listService.interface';
+import { IListController } from '../interfaces/controller/listController.interface';
+import { IListService } from '../interfaces/service/listService.interface';
 import { ReturnListDto } from '../dto/returnList.dto';
 import { CreateListDto } from '../dto/createList.dto';
 import { PutListDto } from '../dto/putList.dto';
 import { PatchListDto } from '../dto/patchList.dto';
-import { IListItemService } from '../../listItems/interfaces/listItemService.interface';
+import { IListItemService } from '../../listItems/interfaces/service/listItemService.interface';
 import { ReturnListItemDto } from '../../listItems/dto/returnListItem.dto';
 import { isEmpty } from '../../common/helpers/utils.helpers';
 import { NotFoundError } from '../../common/types/error.types';

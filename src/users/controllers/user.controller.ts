@@ -15,8 +15,8 @@ import {
 	next,
 } from 'inversify-express-utils';
 import { TYPES } from '../../common/types/di.types';
-import { IUserService } from '../interfaces/userService.interface';
-import { IUserController } from '../interfaces/userController.interface';
+import { IUserService } from '../interfaces/service/userService.interface';
+import { IUserController } from '../interfaces/controller/userController.interface';
 import { CreateUserDto } from '../dto/createUser.dto';
 import { PutUserDto } from '../dto/putUser.dto';
 import { PatchUserDto } from '../dto/patchUser.dto';

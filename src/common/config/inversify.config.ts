@@ -3,44 +3,46 @@ import { TYPES } from '../types/di.types';
 
 import { IContext } from '../context/context.interface';
 import { DbContext } from '../context/db.context';
-import { IUserModel } from '../../users/interfaces/userModel.interface';
+import { IUserModel } from '../../users/interfaces/model/userModel.interface';
 import { UserModel } from '../../users/models/user.model';
-import { IUserDao } from '../../users/interfaces/userDao.interface';
+import { IUserDao } from '../../users/interfaces/dao/userDao.interface';
 import { UserDao } from '../../users/dao/user.dao';
-import { IUserService } from '../../users/interfaces/userService.interface';
+import { IUserService } from '../../users/interfaces/service/userService.interface';
 import { UserService } from '../../users/services/user.service';
-import { IUserController } from '../../users/interfaces/userController.interface';
+import { IUserController } from '../../users/interfaces/controller/userController.interface';
 import { UserController } from '../../users/controllers/user.controller';
-import { IAuthController } from '../../auth/interfaces/authController.interface';
+import { IAuthController } from '../../auth/interfaces/controller/authController.interface';
 import { AuthController } from '../../auth/controllers/auth.controller';
-import { IVerifyPasswordMiddleware } from '../../auth/interfaces/verifyPasswordMiddleware.interface';
+import { IVerifyPasswordMiddleware } from '../../auth/interfaces/middleware/verifyPasswordMiddleware.interface';
 import { VerifyPasswordMiddleware } from '../../auth/middleware/verifyPassword.middleware';
-import { IVerifyJsonWebTokenMiddleware } from '../../auth/interfaces/verifyJsonWebTokenMiddleware.interface';
+import { IVerifyJsonWebTokenMiddleware } from '../../auth/interfaces/middleware/verifyJsonWebTokenMiddleware.interface';
 import { VerifyJsonWebTokenMiddleware } from '../../auth/middleware/verifyJsonWebToken.middleware';
-import { IVerifyUserPermissionMiddleware } from '../../auth/interfaces/verifyUserPermissionMiddleware.interface';
+import { IVerifyUserPermissionMiddleware } from '../../auth/interfaces/middleware/verifyUserPermissionMiddleware.interface';
 import { VerifyUserPermissionMiddleware } from '../../auth/middleware/verifyUserPermission.middleware';
-import { IVerifyRefreshBodyMiddleware } from '../../auth/interfaces/verifyRefreshBodyMiddleware.interface';
+import { IVerifyRefreshBodyMiddleware } from '../../auth/interfaces/middleware/verifyRefreshBodyMiddleware.interface';
 import { VerifyRefreshBodyMiddleware } from '../../auth/middleware/verifyRefreshBody.middleware';
-import { IVerifyRefreshTokenMiddleware } from '../../auth/interfaces/verifyRefreshTokenMiddleware';
+import { IVerifyRefreshTokenMiddleware } from '../../auth/interfaces/middleware/verifyRefreshTokenMiddleware';
 import { VerifyRefreshTokenMiddleware } from '../../auth/middleware/verifyRefreshToken.middleware';
-import { IAuthService } from '../../auth/interfaces/authServices.interface';
+import { IAuthService } from '../../auth/interfaces/service/authServices.interface';
 import { AuthService } from '../../auth/services/auth.service';
-import { IListModel } from '../../lists/interfaces/listModel.interface';
+import { IListModel } from '../../lists/interfaces/model/listModel.interface';
 import { ListModel } from '../../lists/models/list.model';
-import { IListDao } from '../../lists/interfaces/listDao.interface';
+import { IListDao } from '../../lists/interfaces/dao/listDao.interface';
 import { ListDao } from '../../lists/dao/list.dao';
-import { IListService } from '../../lists/interfaces/listService.interface';
+import { IListService } ../../lists/interfaces/service/listService.interfaceerface';
 import { ListService } from '../../lists/services/list.service';
-import { IListController } from '../../lists/interfaces/listController.interface';
+import { IListController } from '../../lists/interfaces/controller/listController.interface';
 import { ListController } from '../../lists/controllers/list.controller';
-import { IListItemModel } from '../../listItems/interfaces/listItemModel.interface';
+import { IListItemModel } from '../../listItems/interfaces/model/listItemModel.interface';
 import { ListItemModel } from '../../listItems/models/listItem.model';
-import { IListItemDao } from '../../listItems/interfaces/listItemDao.interface';
+import { IListItemDao } from '../../listItems/interfaces/dao/listItemDao.interface';
 import { ListItemDao } from '../../listItems/dao/listItem.dao';
-import { IListItemService } from '../../listItems/interfaces/listItemService.interface';
+import { IListItemService } from '../../listItems/interfaces/service/listItemService.interface';
 import { ListItemService } from '../../listItems/services/listItem.service';
-import { IListItemController } from '../../listItems/interfaces/listItemController.interface';
+import { IListItemController } from '../../listItems/interfaces/controller/listItemController.interface';
 import { ListItemController } from '../../listItems/controllers/listItem.controller';
+import { IValidateLoginRequestMiddleware } from '../../auth/interfaces/middleware/validateLoginRequestMiddleware.interface';
+import { ValidateLoginRequestMiddleware } from '../../auth/middleware/validateLoginRequest.middleware';
 
 const container = new Container();
 
@@ -89,5 +91,11 @@ container
 container
 	.bind<IVerifyRefreshTokenMiddleware>(TYPES.IVerifyRefreshTokenMiddleware)
 	.to(VerifyRefreshTokenMiddleware);
+
+container
+	.bind<IValidateLoginRequestMiddleware>(
+		TYPES.IValidateLoginRequestMiddleware
+	)
+	.to(ValidateLoginRequestMiddleware);
 
 export { container };

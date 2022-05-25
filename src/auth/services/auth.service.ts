@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
 import 'reflect-metadata';
-import { IAuthService } from '../interfaces/authServices.interface';
-import { IReturnTokenDto } from '../interfaces/returnTokenDto.interface';
+import { IAuthService } from '../interfaces/service/authServices.interface';
+import { IReturnTokenDto } from '../interfaces/dto/returnTokenDto.interface';
 import env from '../../common/config/env.config';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';

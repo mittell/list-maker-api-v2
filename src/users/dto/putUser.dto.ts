@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
-import { IPutUserDto } from '../interfaces/putUserDto.interface';
+import { IPutUserDto } from '../interfaces/dto/putUserDto.interface';
 import { isEmpty } from '../../common/helpers/utils.helpers';
 import { MappingError } from '../../common/types/error.types';
 

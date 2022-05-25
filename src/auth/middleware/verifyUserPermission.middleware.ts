@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { Request, Response, NextFunction } from 'express';
 import { BaseMiddleware } from 'inversify-express-utils';
 import { UnauthenticatedError } from '../../common/types/error.types';
-import { IVerifyUserPermissionMiddleware } from '../interfaces/verifyUserPermissionMiddleware.interface';
+import { IVerifyUserPermissionMiddleware } from '../interfaces/middleware/verifyUserPermissionMiddleware.interface';
 
 @injectable()
 export class VerifyUserPermissionMiddleware

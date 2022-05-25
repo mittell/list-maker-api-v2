@@ -12,8 +12,8 @@ import {
 	next,
 } from 'inversify-express-utils';
 import { TYPES } from '../../common/types/di.types';
-import { IAuthController } from '../interfaces/authController.interface';
-import { IAuthService } from '../interfaces/authServices.interface';
+import { IAuthController } from '../interfaces/controller/authController.interface';
+import { IAuthService } from '../interfaces/service/authServices.interface';
 
 @controller('')
 export class AuthController
@@ -27,7 +27,11 @@ export class AuthController
 		this._authService = authService;
 	}
 
-	@httpPost('/login', TYPES.IVerifyPasswordMiddleware)
+	@httpPost(
+		'/login',
+		TYPES.IValidateLoginRequestMiddleware,
+		TYPES.IVerifyPasswordMiddleware
+	)
 	async login(
 		@requestBody() body: any,
 		@response() res: Response,

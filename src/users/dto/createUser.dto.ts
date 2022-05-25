@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
 import { isEmpty } from '../../common/helpers/utils.helpers';
-import { ICreateUserDto } from '../interfaces/createUserDto.interface';
+import { ICreateUserDto } from '../interfaces/dto/createUserDto.interface';
 import { MappingError } from '../../common/types/error.types';
 
 @injectable()

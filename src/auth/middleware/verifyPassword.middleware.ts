@@ -3,8 +3,8 @@ import 'reflect-metadata';
 import { TYPES } from '../../common/types/di.types';
 import { Request, Response, NextFunction } from 'express';
 import { BaseMiddleware } from 'inversify-express-utils';
-import { IVerifyPasswordMiddleware } from '../interfaces/verifyPasswordMiddleware.interface';
-import { IUserService } from '../../users/interfaces/userService.interface';
+import { IVerifyPasswordMiddleware } from '../interfaces/middleware/verifyPasswordMiddleware.interface';
+import { IUserService } from '../../users/interfaces/service/userService.interface';
 import { UnauthenticatedError } from '../../common/types/error.types';
 import argon2 from 'argon2';
 

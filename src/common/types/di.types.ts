@@ -32,6 +32,9 @@ const TYPES = {
 	),
 	IVerifyRefreshBodyMiddleware: Symbol.for('IVerifyRefreshBodyMiddleware'),
 	IVerifyRefreshTokenMiddleware: Symbol.for('IVerifyRefreshTokenMiddleware'),
+	IValidateLoginRequestMiddleware: Symbol.for(
+		'IValidateLoginRequestMiddleware'
+	),
 };
 
 export { TYPES };
