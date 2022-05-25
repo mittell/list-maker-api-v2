@@ -137,7 +137,11 @@ export class ListController
 			});
 	}
 
-	@httpPost('/', TYPES.IVerifyJsonWebTokenMiddleware)
+	@httpPost(
+		'/',
+		TYPES.IValidateListCreateRequestMiddleware,
+		TYPES.IVerifyJsonWebTokenMiddleware
+	)
 	async createList(
 		@requestBody() body: any,
 		@next() next: NextFunction
@@ -169,7 +173,11 @@ export class ListController
 		);
 	}
 
-	@httpPut('/:id', TYPES.IVerifyJsonWebTokenMiddleware)
+	@httpPut(
+		'/:id',
+		TYPES.IValidateListPutRequestMiddleware,
+		TYPES.IVerifyJsonWebTokenMiddleware
+	)
 	async putListById(
 		@requestParam('id') id: string,
 		@requestBody() body: any,
@@ -212,7 +220,11 @@ export class ListController
 		);
 	}
 
-	@httpPatch('/:id', TYPES.IVerifyJsonWebTokenMiddleware)
+	@httpPatch(
+		'/:id',
+		TYPES.IValidateListPatchRequestMiddleware,
+		TYPES.IVerifyJsonWebTokenMiddleware
+	)
 	async patchListById(
 		@requestParam('id') id: string,
 		@requestBody() body: any,

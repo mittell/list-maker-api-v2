@@ -65,7 +65,11 @@ export class ListItemController
 		);
 	}
 
-	@httpPost('/')
+	@httpPost(
+		'/',
+		TYPES.IValidateListItemCreateRequestMiddleware,
+		TYPES.IVerifyJsonWebTokenMiddleware
+	)
 	async createListItem(
 		@requestBody() body: any,
 		@next() next: NextFunction
@@ -97,7 +101,11 @@ export class ListItemController
 		);
 	}
 
-	@httpPut('/:id', TYPES.IVerifyJsonWebTokenMiddleware)
+	@httpPut(
+		'/:id',
+		TYPES.IValidateListItemPutRequestMiddleware,
+		TYPES.IVerifyJsonWebTokenMiddleware
+	)
 	async putListItemById(
 		@requestParam('id') id: string,
 		@requestBody() body: any,
@@ -138,7 +146,11 @@ export class ListItemController
 		);
 	}
 
-	@httpPatch('/:id', TYPES.IVerifyJsonWebTokenMiddleware)
+	@httpPatch(
+		'/:id',
+		TYPES.IValidateListItemPatchRequestMiddleware,
+		TYPES.IVerifyJsonWebTokenMiddleware
+	)
 	async patchListItemById(
 		@requestParam('id') id: string,
 		@requestBody() body: any,

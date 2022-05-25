@@ -43,6 +43,24 @@ import { ListItemController } from '../../listItems/controllers/listItem.control
 import { IValidateLoginRequestMiddleware } from '../../auth/interfaces/middleware/validateLoginRequestMiddleware.interface';
 import { ValidateLoginRequestMiddleware } from '../../auth/middleware/validateLoginRequest.middleware';
 import { IListService } from '../../lists/interfaces/service/listService.interface';
+import { IValidateListItemCreateRequestMiddleware } from '../../listItems/interfaces/middleware/validateListItemCreateRequestMiddleware.interface';
+import { IValidateListItemPatchRequestMiddleware } from '../../listItems/interfaces/middleware/validateListItemPatchRequestMiddleware.interface';
+import { IValidateListItemPutRequestMiddleware } from '../../listItems/interfaces/middleware/validateListItemPutRequestMiddleware.interface';
+import { IValidateListCreateRequestMiddleware } from '../../lists/interfaces/middleware/validateListCreateRequestMiddleware.interface';
+import { IValidateListPatchRequestMiddleware } from '../../lists/interfaces/middleware/validateListRequestMiddleware.interface';
+import { IValidateListPutRequestMiddleware } from '../../lists/interfaces/middleware/validateListItemPutRequestMiddleware.interface';
+import { IValidateUserCreateRequestMiddleware } from '../../users/interfaces/middleware/validateUserCreateRequestMiddleware.interface';
+import { IValidateUserPatchRequestMiddleware } from '../../users/interfaces/middleware/validateUserRequestMiddleware.interface';
+import { IValidateUserPutRequestMiddleware } from '../../users/interfaces/middleware/validateUserItemPutRequestMiddleware.interface';
+import { ValidateListItemCreateRequestMiddleware } from '../../listItems/middleware/validateListItemCreate.middleware';
+import { ValidateListItemPatchRequestMiddleware } from '../../listItems/middleware/validateListItemPatch.middleware';
+import { ValidateListItemPutRequestMiddleware } from '../../listItems/middleware/validateListItemPut.middleware';
+import { ValidateListCreateRequestMiddleware } from '../../lists/middleware/validateListCreate.middleware';
+import { ValidateListPatchRequestMiddleware } from '../../lists/middleware/validateListPatch.middleware';
+import { ValidateListPutRequestMiddleware } from '../../lists/middleware/validateListPut.middleware';
+import { ValidateUserCreateRequestMiddleware } from '../../users/middleware/validateUserCreate.middleware';
+import { ValidateUserPatchRequestMiddleware } from '../../users/middleware/validateUserPatch.middleware';
+import { ValidateUserPutRequestMiddleware } from '../../users/middleware/validateUserPut.middleware';
 
 const container = new Container();
 
@@ -97,5 +115,50 @@ container
 		TYPES.IValidateLoginRequestMiddleware
 	)
 	.to(ValidateLoginRequestMiddleware);
+container
+	.bind<IValidateListItemCreateRequestMiddleware>(
+		TYPES.IValidateListItemCreateRequestMiddleware
+	)
+	.to(ValidateListItemCreateRequestMiddleware);
+container
+	.bind<IValidateListItemPatchRequestMiddleware>(
+		TYPES.IValidateListItemPatchRequestMiddleware
+	)
+	.to(ValidateListItemPatchRequestMiddleware);
+container
+	.bind<IValidateListItemPutRequestMiddleware>(
+		TYPES.IValidateListItemPutRequestMiddleware
+	)
+	.to(ValidateListItemPutRequestMiddleware);
+container
+	.bind<IValidateListCreateRequestMiddleware>(
+		TYPES.IValidateListCreateRequestMiddleware
+	)
+	.to(ValidateListCreateRequestMiddleware);
+container
+	.bind<IValidateListPatchRequestMiddleware>(
+		TYPES.IValidateListPatchRequestMiddleware
+	)
+	.to(ValidateListPatchRequestMiddleware);
+container
+	.bind<IValidateListPutRequestMiddleware>(
+		TYPES.IValidateListPutRequestMiddleware
+	)
+	.to(ValidateListPutRequestMiddleware);
+container
+	.bind<IValidateUserCreateRequestMiddleware>(
+		TYPES.IValidateUserCreateRequestMiddleware
+	)
+	.to(ValidateUserCreateRequestMiddleware);
+container
+	.bind<IValidateUserPatchRequestMiddleware>(
+		TYPES.IValidateUserPatchRequestMiddleware
+	)
+	.to(ValidateUserPatchRequestMiddleware);
+container
+	.bind<IValidateUserPutRequestMiddleware>(
+		TYPES.IValidateUserPutRequestMiddleware
+	)
+	.to(ValidateUserPutRequestMiddleware);
 
 export { container };

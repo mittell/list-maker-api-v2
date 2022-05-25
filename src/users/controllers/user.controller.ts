@@ -86,7 +86,7 @@ export class UserController
 			});
 	}
 
-	@httpPost('/')
+	@httpPost('/', TYPES.IValidateUserCreateRequestMiddleware)
 	async createUser(
 		@requestBody() body: any,
 		@next() next: NextFunction
@@ -116,6 +116,7 @@ export class UserController
 
 	@httpPut(
 		'/:id',
+		TYPES.IValidateUserPutRequestMiddleware,
 		TYPES.IVerifyJsonWebTokenMiddleware,
 		TYPES.IVerifyUserPermissionMiddleware
 	)
@@ -157,6 +158,7 @@ export class UserController
 
 	@httpPatch(
 		'/:id',
+		TYPES.IValidateUserPatchRequestMiddleware,
 		TYPES.IVerifyJsonWebTokenMiddleware,
 		TYPES.IVerifyUserPermissionMiddleware
 	)
