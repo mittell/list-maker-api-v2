@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { Request, Response, NextFunction } from 'express';
 import { BaseMiddleware } from 'inversify-express-utils';
 import { IValidateListPatchRequestMiddleware } from '../interfaces/middleware/validateListRequestMiddleware.interface';
+import { ValidationError } from '../../common/types/error.types';
 
 @injectable()
 export class ValidateListPatchRequestMiddleware
@@ -10,32 +11,22 @@ export class ValidateListPatchRequestMiddleware
 	implements IValidateListPatchRequestMiddleware
 {
 	public async handler(req: Request, _res: Response, next: NextFunction) {
-		// body('title').optional().notEmpty(),
-		// body('description').optional().notEmpty(),
-		// body().custom((_value, { req }) => {
-		// 	let body = req.body;
-		// 	if (
-		// 		(body.constructor === Object &&
-		// 			Object.keys(body).length === 0) ||
-		// 		(Object.keys(body).length === 1 && body['id'] !== undefined)
-		// 	) {
-		// 		throw new Error('Body cannot be empty');
-		// 	}
+		let title: any = req.body.title;
+		let description: any = req.body.description;
 
-		// 	return true;
-		// }),
-		// body().custom((_value, { req }) => {
-		// 	let body = req.body;
+		let errors: string[] = [];
 
-		// 	if (
-		// 		body['title'] !== undefined ||
-		// 		body['description'] !== undefined
-		// 	) {
-		// 		return true;
-		// 	}
+		if (title && title === '') {
+			errors.push('Title must have a value');
+		}
 
-		// 	throw new Error('Body does not contain valid data');
-		// }),
+		if (description && description === '') {
+			errors.push('Description must have a value');
+		}
+
+		if (errors.length > 0) {
+			return next(new ValidationError('Invalid data', errors));
+		}
 
 		return next();
 	}

@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { Request, Response, NextFunction } from 'express';
 import { BaseMiddleware } from 'inversify-express-utils';
 import { IValidateUserPatchRequestMiddleware } from '../interfaces/middleware/validateUserRequestMiddleware.interface';
+import { ValidationError } from '../../common/types/error.types';
 
 @injectable()
 export class ValidateUserPatchRequestMiddleware
@@ -10,34 +11,42 @@ export class ValidateUserPatchRequestMiddleware
 	implements IValidateUserPatchRequestMiddleware
 {
 	public async handler(req: Request, _res: Response, next: NextFunction) {
-		// body('username').optional().notEmpty(),
-		// body('email').optional().notEmpty().isEmail(),
-		// body('password').optional().notEmpty().isLength({ min: 6 }),
-		// body().custom((_value, { req }) => {
-		// 	let body = req.body;
-		// 	if (
-		// 		(body.constructor === Object &&
-		// 			Object.keys(body).length === 0) ||
-		// 		(Object.keys(body).length === 1 && body['id'] !== undefined)
-		// 	) {
-		// 		throw new Error('Body cannot be empty');
-		// 	}
+		let username: any = req.body.username;
+		let email: any = req.body.email;
+		let password: any = req.body.password;
 
-		// 	return true;
-		// }),
-		// body().custom((_value, { req }) => {
-		// 	let body = req.body;
+		let errors: string[] = [];
 
-		// 	if (
-		// 		body['username'] !== undefined ||
-		// 		body['email'] !== undefined ||
-		// 		body['password'] !== undefined
-		// 	) {
-		// 		return true;
-		// 	}
+		if (username && username === '') {
+			errors.push('Username is required');
+		}
 
-		// 	throw new Error('Body does not contain valid data');
-		// }),
+		if (email && email === '') {
+			errors.push('Email is required');
+		}
+
+		if (password && password === '') {
+			errors.push('Password is required');
+		}
+
+		if (errors.length > 0) {
+			return next(new ValidationError('Invalid data', errors));
+		}
+
+		let emailRegex =
+			/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+		if (email && !email.match(emailRegex)) {
+			errors.push('Email is not a valid email address');
+		}
+
+		if (password && password.length < 6) {
+			errors.push('Password must be at least 6 characters');
+		}
+
+		if (errors.length > 0) {
+			return next(new ValidationError('Invalid data', errors));
+		}
 
 		return next();
 	}
