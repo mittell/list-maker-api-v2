@@ -2,7 +2,6 @@ import env from '../config/env.config';
 import { NextFunction, Request, Response } from 'express';
 import { Error as MongooseError } from 'mongoose';
 import { MongoError } from 'mongodb';
-// import { Result as ExpressValidatorError } from 'express-validator';
 import {
 	BadRequestError,
 	InternalServerError,
@@ -60,20 +59,6 @@ export async function handleErrors(
 			...(error.message ? { message: error.message } : {}),
 			...(error.errors.length ? { details: error.errors } : {}),
 		});
-		// } else if (error instanceof ExpressValidatorError) {
-		// 	res.status(406).json({
-		// 		status: 406,
-		// 		name: 'ExpressValidatorError',
-		// 		message: [
-		// 			...new Set(
-		// 				error
-		// 					.array()
-		// 					.map((e: any) =>
-		// 						e.param === '' ? `${e.msg}` : `${e.param}: ${e.msg}`
-		// 					)
-		// 			),
-		// 		],
-		// 	});
 	} else if (error instanceof MongooseError.ValidationError) {
 		res.status(406).json({
 			status: 406,
