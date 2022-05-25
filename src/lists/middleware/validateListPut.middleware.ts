@@ -10,6 +10,9 @@ export class ValidateListPutRequestMiddleware
 	implements IValidateListPutRequestMiddleware
 {
 	public async handler(req: Request, _res: Response, next: NextFunction) {
+		// body('title').exists().notEmpty(),
+		// body('description').exists().notEmpty(),
+
 		return next();
 	}
 }

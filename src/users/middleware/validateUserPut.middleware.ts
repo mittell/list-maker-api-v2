@@ -10,6 +10,10 @@ export class ValidateUserPutRequestMiddleware
 	implements IValidateUserPutRequestMiddleware
 {
 	public async handler(req: Request, _res: Response, next: NextFunction) {
+		// body('username').exists().notEmpty(),
+		// body('email').exists().notEmpty().isEmail(),
+		// body('password').exists().notEmpty().isLength({ min: 6 }),
+
 		return next();
 	}
 }
