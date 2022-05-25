@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import { isEmpty } from '../../common/helpers/utils.helpers';
-import { IPatchListItemDto } from '../interfaces/patchListItemDto.interface';
+import { IPatchListItemDto } from '../interfaces/dto/patchListItemDto.interface';
 
 @injectable()
 export class PatchListItemDto implements IPatchListItemDto {

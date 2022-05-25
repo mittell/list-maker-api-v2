@@ -5,8 +5,12 @@ import { IPutDto } from './putDto.interface';
 
 export interface IDao {
 	getList(): Promise<IModel[]>;
+
 	getById(id: string): Promise<IModel>;
+
 	create(dto: ICreateDto): Promise<IModel>;
+
 	update(dto: IPutDto | IPatchDto): Promise<IModel>;
+	
 	delete(id: string): Promise<IModel>;
 }

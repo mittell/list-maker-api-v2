@@ -1,13 +1,13 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { TYPES } from '../../common/types/di.types';
-import { ICreateListDto } from '../interfaces/createListDto.interface';
-import { IListDao } from '../interfaces/listDao.interface';
-import { IListModel } from '../interfaces/listModel.interface';
-import { IListService } from '../interfaces/listService.interface';
-import { IPatchListDto } from '../interfaces/patchListDto.interface';
-import { IPutListDto } from '../interfaces/putListDto.interface';
+import { ICreateListDto } from '../interfaces/dto/createListDto.interface';
+import { IListDao } from '../interfaces/dao/listDao.interface';
+import { IListModel } from '../interfaces/model/listModel.interface';
+import { IPatchListDto } from '../interfaces/dto/patchListDto.interface';
+import { IPutListDto } from '../interfaces/dto/putListDto.interface';
 import { v4 as uuid } from 'uuid';
+import { IListService } from '../interfaces/service/listService.interface';
 
 @injectable()
 export class ListService implements IListService {

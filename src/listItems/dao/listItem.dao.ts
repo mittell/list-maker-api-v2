@@ -2,11 +2,11 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { TYPES } from '../../common/types/di.types';
 import { IContext } from '../../common/context/context.interface';
-import { IListItemDao } from '../interfaces/listItemDao.interface';
-import { IListItemModel } from '../interfaces/listItemModel.interface';
-import { ICreateListItemDto } from '../interfaces/createListItemDto.interface';
-import { IPutListItemDto } from '../interfaces/putListItemDto.interface';
-import { IPatchListItemDto } from '../interfaces/patchListItemDto.interface';
+import { IListItemDao } from '../interfaces/dao/listItemDao.interface';
+import { IListItemModel } from '../interfaces/model/listItemModel.interface';
+import { ICreateListItemDto } from '../interfaces/dto/createListItemDto.interface';
+import { IPutListItemDto } from '../interfaces/dto/putListItemDto.interface';
+import { IPatchListItemDto } from '../interfaces/dto/patchListItemDto.interface';
 
 @injectable()
 export class ListItemDao implements IListItemDao {
@@ -54,33 +54,25 @@ export class ListItemDao implements IListItemDao {
 	}
 
 	async create(dto: ICreateListItemDto): Promise<IListItemModel> {
-		return await this._listItemModel
-			.mapFromCreateDto(dto)
-			.then(async () => {
-				return this._schema
-					.create({
-						...this._listItemModel,
-					})
-					.then((item: any) => {
-						return item.save();
-					});
-			});
+		return this._listItemModel.mapFromCreateDto(dto).then(async () => {
+			return this._schema
+				.create({
+					...this._listItemModel,
+				})
+				.then((item: any) => {
+					return item.save();
+				});
+		});
 	}
 
 	async update(
 		dto: IPutListItemDto | IPatchListItemDto
 	): Promise<IListItemModel> {
-		return await this._listItemModel
-			.mapFromUpdateDto(dto)
-			.then(async () => {
-				return this._schema
-					.findOneAndUpdate(
-						{ _id: dto.id },
-						{ $set: dto },
-						{ new: true }
-					)
-					.exec();
-			});
+		return this._listItemModel.mapFromUpdateDto(dto).then(async () => {
+			return this._schema
+				.findOneAndUpdate({ _id: dto.id }, { $set: dto }, { new: true })
+				.exec();
+		});
 	}
 
 	async delete(id: string): Promise<IListItemModel> {

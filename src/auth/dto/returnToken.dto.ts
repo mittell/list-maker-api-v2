@@ -1,4 +1,4 @@
-import { IReturnTokenDto } from '../interfaces/returnTokenDto.interface';
+import { IReturnTokenDto } from '../interfaces/dto/returnTokenDto.interface';
 
 export class ReturnTokenDto implements IReturnTokenDto {
 	public accessToken: string;

@@ -1,13 +1,13 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { TYPES } from '../../common/types/di.types';
-import { IUserDao } from '../interfaces/userDao.interface';
-import { IUserService } from '../interfaces/userService.interface';
+import { IUserDao } from '../interfaces/dao/userDao.interface';
+import { IUserService } from '../interfaces/service/userService.interface';
 import { v4 as uuid } from 'uuid';
-import { ICreateUserDto } from '../interfaces/createUserDto.interface';
-import { IUserModel } from '../interfaces/userModel.interface';
-import { IPutUserDto } from '../interfaces/putUserDto.interface';
-import { IPatchUserDto } from '../interfaces/patchUserDto.interface';
+import { ICreateUserDto } from '../interfaces/dto/createUserDto.interface';
+import { IUserModel } from '../interfaces/model/userModel.interface';
+import { IPutUserDto } from '../interfaces/dto/putUserDto.interface';
+import { IPatchUserDto } from '../interfaces/dto/patchUserDto.interface';
 import argon2 from 'argon2';
 
 @injectable()

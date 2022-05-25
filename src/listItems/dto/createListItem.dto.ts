@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { injectable } from 'inversify';
 import { isEmpty } from '../../common/helpers/utils.helpers';
 import { MappingError } from '../../common/types/error.types';
-import { ICreateListItemDto } from '../interfaces/createListItemDto.interface';
+import { ICreateListItemDto } from '../interfaces/dto/createListItemDto.interface';
 
 @injectable()
 export class CreateListItemDto implements ICreateListItemDto {

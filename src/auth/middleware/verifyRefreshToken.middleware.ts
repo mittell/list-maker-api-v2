@@ -2,10 +2,10 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { Request, Response, NextFunction } from 'express';
 import { BaseMiddleware } from 'inversify-express-utils';
-import { IVerifyRefreshTokenMiddleware } from '../interfaces/verifyRefreshTokenMiddleware';
+import { IVerifyRefreshTokenMiddleware } from '../interfaces/middleware/verifyRefreshTokenMiddleware';
 import { BadRequestError } from '../../common/types/error.types';
 import { TYPES } from '../../common/types/di.types';
-import { IUserService } from '../../users/interfaces/userService.interface';
+import { IUserService } from '../../users/interfaces/service/userService.interface';
 import crypto from 'crypto';
 import env from '../../common/config/env.config';
 

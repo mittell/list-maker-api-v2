@@ -1,10 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import { inject } from 'inversify';
 import 'reflect-metadata';
 
 import {
 	controller,
-	request,
 	requestBody,
 	response,
 	httpPost,
@@ -13,8 +12,8 @@ import {
 	next,
 } from 'inversify-express-utils';
 import { TYPES } from '../../common/types/di.types';
-import { IAuthController } from '../interfaces/authController.interface';
-import { IAuthService } from '../interfaces/authServices.interface';
+import { IAuthController } from '../interfaces/controller/authController.interface';
+import { IAuthService } from '../interfaces/service/authServices.interface';
 
 @controller('')
 export class AuthController
@@ -28,18 +27,24 @@ export class AuthController
 		this._authService = authService;
 	}
 
-	@httpPost('/login', TYPES.IVerifyPasswordMiddleware)
+	@httpPost(
+		'/login',
+		TYPES.IValidateLoginRequestMiddleware,
+		TYPES.IVerifyPasswordMiddleware
+	)
 	async login(
 		@requestBody() body: any,
-		@request() _req: Request,
 		@response() res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
 		await this._authService
+			// Generate JSON Web Token from Request and map to DTO
 			.generateJsonWebToken(body)
+			// Return DTO
 			.then((returnDto) => {
 				return res.send(returnDto);
 			})
+			// Catch and return Error
 			.catch((error) => {
 				return next(error);
 			});
@@ -53,15 +58,17 @@ export class AuthController
 	)
 	async refresh(
 		@requestBody() body: any,
-		@request() _req: Request,
 		@response() res: Response,
 		@next() next: NextFunction
 	): Promise<IHttpActionResult | void> {
 		await this._authService
+			// Generate JSON Web Token from Request and map to DTO
 			.generateJsonWebToken(body)
+			// Return DTO
 			.then((returnDto) => {
 				return res.send(returnDto);
 			})
+			// Catch and return Error
 			.catch((error) => {
 				return next(error);
 			});

@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
-import { IReturnUserDto } from '../interfaces/returnUserDto.interface';
-import { IUserModel } from '../interfaces/userModel.interface';
+import { IReturnUserDto } from '../interfaces/dto/returnUserDto.interface';
+import { IUserModel } from '../interfaces/model/userModel.interface';
 import { isEmpty } from '../../common/helpers/utils.helpers';
 import { MappingError } from '../../common/types/error.types';
 

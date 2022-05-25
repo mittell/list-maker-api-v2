@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { Request, Response, NextFunction } from 'express';
 import { BaseMiddleware } from 'inversify-express-utils';
 import { BadRequestError } from '../../common/types/error.types';
-import { IVerifyRefreshBodyMiddleware } from '../interfaces/verifyRefreshBodyMiddleware.interface';
+import { IVerifyRefreshBodyMiddleware } from '../interfaces/middleware/verifyRefreshBodyMiddleware.interface';
 
 @injectable()
 export class VerifyRefreshBodyMiddleware

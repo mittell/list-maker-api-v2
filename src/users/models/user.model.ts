@@ -5,7 +5,7 @@ import { CreateUserDto } from '../dto/createUser.dto';
 import { PutUserDto } from '../dto/putUser.dto';
 import { PatchUserDto } from '../dto/patchUser.dto';
 import { isEmpty } from '../../common/helpers/utils.helpers';
-import { IUserModel } from '../interfaces/userModel.interface';
+import { IUserModel } from '../interfaces/model/userModel.interface';
 import { MappingError } from '../../common/types/error.types';
 
 @injectable()

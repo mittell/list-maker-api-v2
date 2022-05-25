@@ -2,8 +2,9 @@ import 'reflect-metadata';
 import { injectable } from 'inversify';
 import { isEmpty } from '../../common/helpers/utils.helpers';
 import { MappingError } from '../../common/types/error.types';
-import { IListModel } from '../interfaces/listModel.interface';
-import { IReturnListDto } from '../interfaces/returnListDto.interface';
+import { IListModel } from '../interfaces/model/listModel.interface';
+import { IReturnListDto } from '../interfaces/dto/returnListDto.interface';
+import { IReturnListItemDto } from '../../listItems/interfaces/dto/returnListItemDto.interface';
 
 @injectable()
 export class ReturnListDto implements IReturnListDto {
@@ -11,6 +12,7 @@ export class ReturnListDto implements IReturnListDto {
 	private _title!: string;
 	private _description!: string;
 	private _userId!: string;
+	private _listItems!: IReturnListItemDto[];
 
 	public get id() {
 		return this._id;
@@ -26,6 +28,14 @@ export class ReturnListDto implements IReturnListDto {
 
 	public get userId() {
 		return this._userId;
+	}
+
+	public get listItems() {
+		return this._listItems;
+	}
+
+	public set listItems(items: IReturnListItemDto[]) {
+		this._listItems = items;
 	}
 
 	async mapFromModel(model: IListModel): Promise<IReturnListDto> {

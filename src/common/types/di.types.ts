@@ -27,9 +27,41 @@ const TYPES = {
 	// Middleware
 	IVerifyPasswordMiddleware: Symbol.for('IVerifyPasswordMiddleware'),
 	IVerifyJsonWebTokenMiddleware: Symbol.for('IVerifyJsonWebTokenMiddleware'),
-	IVerifyPermissionMiddleware: Symbol.for('IVerifyPermissionMiddleware'),
+	IVerifyUserPermissionMiddleware: Symbol.for(
+		'IVerifyUserPermissionMiddleware'
+	),
 	IVerifyRefreshBodyMiddleware: Symbol.for('IVerifyRefreshBodyMiddleware'),
 	IVerifyRefreshTokenMiddleware: Symbol.for('IVerifyRefreshTokenMiddleware'),
+	IValidateLoginRequestMiddleware: Symbol.for(
+		'IValidateLoginRequestMiddleware'
+	),
+	IValidateListItemCreateRequestMiddleware: Symbol.for(
+		'IValidateListItemCreateRequestMiddleware'
+	),
+	IValidateListItemPatchRequestMiddleware: Symbol.for(
+		'IValidateListItemPatchRequestMiddleware'
+	),
+	IValidateListItemPutRequestMiddleware: Symbol.for(
+		'IValidateListItemPutRequestMiddleware'
+	),
+	IValidateListCreateRequestMiddleware: Symbol.for(
+		'IValidateListCreateRequestMiddleware'
+	),
+	IValidateListPatchRequestMiddleware: Symbol.for(
+		'IValidateListPatchRequestMiddleware'
+	),
+	IValidateListPutRequestMiddleware: Symbol.for(
+		'IValidateListPutRequestMiddleware'
+	),
+	IValidateUserCreateRequestMiddleware: Symbol.for(
+		'IValidateUserCreateRequestMiddleware'
+	),
+	IValidateUserPatchRequestMiddleware: Symbol.for(
+		'IValidateUserPatchRequestMiddleware'
+	),
+	IValidateUserPutRequestMiddleware: Symbol.for(
+		'IValidateUserPutRequestMiddleware'
+	),
 };
 
 export { TYPES };
