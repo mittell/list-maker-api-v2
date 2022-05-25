@@ -1,11 +1,12 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
-import { IUserReturnDto } from '../interfaces/userReturnDto.interface';
-import { IUserModel } from '../interfaces/userModel.interface';
+import { IReturnUserDto } from '../interfaces/dto/returnUserDto.interface';
+import { IUserModel } from '../interfaces/model/userModel.interface';
 import { isEmpty } from '../../common/helpers/utils.helpers';
+import { MappingError } from '../../common/types/error.types';
 
 @injectable()
-export class ReturnUserDto implements IUserReturnDto {
+export class ReturnUserDto implements IReturnUserDto {
 	private _id!: string;
 	private _email!: string;
 	private _username!: string;
@@ -27,28 +28,26 @@ export class ReturnUserDto implements IUserReturnDto {
 		return this._password;
 	}
 
-	mapFromModel(model: IUserModel): Promise<IUserReturnDto> {
-		return new Promise<IUserReturnDto>(async (resolve, reject) => {
-			let id: string = model.id;
-			let email: string = model.email;
-			let username: string = model.username;
-			let password: string = model.password;
+	async mapFromModel(model: IUserModel): Promise<IReturnUserDto> {
+		let id: string = model.id;
+		let email: string = model.email;
+		let username: string = model.username;
+		let password: string = model.password;
 
-			if (
-				isEmpty(id) ||
-				isEmpty(email) ||
-				isEmpty(username) ||
-				isEmpty(password)
-			) {
-				reject('Unable to map Dto from Model.');
-			}
+		if (
+			isEmpty(id) ||
+			isEmpty(email) ||
+			isEmpty(username) ||
+			isEmpty(password)
+		) {
+			throw new MappingError('Unable to map Dto from Model.');
+		}
 
-			this._id = id;
-			this._email = email;
-			this._username = username;
-			this._password = password;
+		this._id = id;
+		this._email = email;
+		this._username = username;
+		this._password = password;
 
-			resolve(this);
-		});
+		return this;
 	}
 }

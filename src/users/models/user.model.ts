@@ -5,7 +5,8 @@ import { CreateUserDto } from '../dto/createUser.dto';
 import { PutUserDto } from '../dto/putUser.dto';
 import { PatchUserDto } from '../dto/patchUser.dto';
 import { isEmpty } from '../../common/helpers/utils.helpers';
-import { IUserModel } from '../interfaces/userModel.interface';
+import { IUserModel } from '../interfaces/model/userModel.interface';
+import { MappingError } from '../../common/types/error.types';
 
 @injectable()
 export class UserModel implements IUserModel {
@@ -66,46 +67,42 @@ export class UserModel implements IUserModel {
 	}
 
 	public async mapFromCreateDto(dto: CreateUserDto): Promise<any> {
-		return new Promise(async (resolve, reject) => {
-			if (
-				isEmpty(dto.id) ||
-				isEmpty(dto.email) ||
-				isEmpty(dto.username) ||
-				isEmpty(dto.password)
-			) {
-				reject('Unable to map from CreateDto.');
-			}
+		if (
+			isEmpty(dto.id) ||
+			isEmpty(dto.email) ||
+			isEmpty(dto.username) ||
+			isEmpty(dto.password)
+		) {
+			throw new MappingError('Unable to map from CreateDto.');
+		}
 
-			this._id = dto.id;
-			this._email = dto.email;
-			this._username = dto.username;
-			this._password = dto.password;
+		this._id = dto.id;
+		this._email = dto.email;
+		this._username = dto.username;
+		this._password = dto.password;
 
-			resolve(this);
-		});
+		return this;
 	}
 
 	public async mapFromUpdateDto(
 		dto: PutUserDto | PatchUserDto
 	): Promise<any> {
-		return new Promise(async (resolve, _reject) => {
-			if (!isEmpty(dto.id)) {
-				this._id = dto.id as string;
-			}
+		if (!isEmpty(dto.id)) {
+			this._id = dto.id as string;
+		}
 
-			if (!isEmpty(dto.email)) {
-				this._email = dto.email as string;
-			}
+		if (!isEmpty(dto.email)) {
+			this._email = dto.email as string;
+		}
 
-			if (!isEmpty(dto.username)) {
-				this._username = dto.username as string;
-			}
+		if (!isEmpty(dto.username)) {
+			this._username = dto.username as string;
+		}
 
-			if (!isEmpty(dto.password)) {
-				this._password = dto.password as string;
-			}
+		if (!isEmpty(dto.password)) {
+			this._password = dto.password as string;
+		}
 
-			resolve(this);
-		});
+		return this;
 	}
 }

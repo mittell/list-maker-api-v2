@@ -1,10 +1,11 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
-import { IUserPutDto } from '../interfaces/userPutDto.interface';
+import { IPutUserDto } from '../interfaces/dto/putUserDto.interface';
 import { isEmpty } from '../../common/helpers/utils.helpers';
+import { MappingError } from '../../common/types/error.types';
 
 @injectable()
-export class PutUserDto implements IUserPutDto {
+export class PutUserDto implements IPutUserDto {
 	private _id!: string;
 	private _email!: string;
 	private _username!: string;
@@ -26,28 +27,26 @@ export class PutUserDto implements IUserPutDto {
 		return this._password;
 	}
 
-	mapFromRequest(requestId: string, model: any): Promise<IUserPutDto> {
-		return new Promise<IUserPutDto>(async (resolve, reject) => {
-			let id: string = requestId;
-			let email: string = model.email;
-			let username: string = model.username;
-			let password: string = model.password;
+	async mapFromRequest(requestId: string, model: any): Promise<IPutUserDto> {
+		let id: string = requestId;
+		let email: string = model.email;
+		let username: string = model.username;
+		let password: string = model.password;
 
-			if (
-				isEmpty(id) ||
-				isEmpty(email) ||
-				isEmpty(username) ||
-				isEmpty(password)
-			) {
-				reject('Unable to map Dto from Request.');
-			}
+		if (
+			isEmpty(id) ||
+			isEmpty(email) ||
+			isEmpty(username) ||
+			isEmpty(password)
+		) {
+			throw new MappingError('Unable to map Dto from Request.');
+		}
 
-			this._id = id;
-			this._email = email;
-			this._username = username;
-			this._password = password;
+		this._id = id;
+		this._email = email;
+		this._username = username;
+		this._password = password;
 
-			resolve(this);
-		});
+		return this;
 	}
 }

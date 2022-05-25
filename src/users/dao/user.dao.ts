@@ -2,11 +2,11 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { TYPES } from '../../common/types/di.types';
 import { IContext } from '../../common/context/context.interface';
-import { IUserDao } from '../interfaces/userDao.interface';
-import { IUserModel } from '../interfaces/userModel.interface';
-import { IUserCreateDto } from '../interfaces/userCreateDto.interface';
-import { IUserPutDto } from '../interfaces/userPutDto.interface';
-import { IUserPatchDto } from '../interfaces/userPatchDto.interface';
+import { IUserDao } from '../interfaces/dao/userDao.interface';
+import { IUserModel } from '../interfaces/model/userModel.interface';
+import { ICreateUserDto } from '../interfaces/dto/createUserDto.interface';
+import { IPutUserDto } from '../interfaces/dto/putUserDto.interface';
+import { IPatchUserDto } from '../interfaces/dto/patchUserDto.interface';
 
 @injectable()
 export class UserDao implements IUserDao {
@@ -31,7 +31,11 @@ export class UserDao implements IUserDao {
 		return this._schema.findOne({ _id: id }).exec();
 	}
 
-	async create(dto: IUserCreateDto): Promise<IUserModel> {
+	async getByEmail(email: string): Promise<IUserModel> {
+		return this._schema.findOne({ _email: email }).exec();
+	}
+
+	async create(dto: ICreateUserDto): Promise<IUserModel> {
 		return await this._userModel.mapFromCreateDto(dto).then(async () => {
 			return this._schema
 				.create({
@@ -43,7 +47,7 @@ export class UserDao implements IUserDao {
 		});
 	}
 
-	async update(dto: IUserPutDto | IUserPatchDto): Promise<IUserModel> {
+	async update(dto: IPutUserDto | IPatchUserDto): Promise<IUserModel> {
 		return await this._userModel.mapFromUpdateDto(dto).then(async () => {
 			return this._schema
 				.findOneAndUpdate({ _id: dto.id }, { $set: dto }, { new: true })

@@ -1,10 +1,11 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
 import { isEmpty } from '../../common/helpers/utils.helpers';
-import { IUserCreateDto } from '../interfaces/userCreateDto.interface';
+import { ICreateUserDto } from '../interfaces/dto/createUserDto.interface';
+import { MappingError } from '../../common/types/error.types';
 
 @injectable()
-export class CreateUserDto implements IUserCreateDto {
+export class CreateUserDto implements ICreateUserDto {
 	private _id!: string;
 	private _email!: string;
 	private _username!: string;
@@ -30,21 +31,23 @@ export class CreateUserDto implements IUserCreateDto {
 		return this._password;
 	}
 
-	mapFromRequest(model: any): Promise<IUserCreateDto> {
-		return new Promise<IUserCreateDto>(async (resolve, reject) => {
-			let email: string = model.email;
-			let username: string = model.username;
-			let password: string = model.password;
+	public set password(value: string) {
+		this._password = value;
+	}
 
-			if (isEmpty(email) || isEmpty(username) || isEmpty(password)) {
-				reject('Unable to map Dto from Request.');
-			}
+	async mapFromRequest(model: any): Promise<ICreateUserDto> {
+		let email: string = model.email;
+		let username: string = model.username;
+		let password: string = model.password;
 
-			this._email = email;
-			this._username = username;
-			this._password = password;
+		if (isEmpty(email) || isEmpty(username) || isEmpty(password)) {
+			throw new MappingError('Unable to map Dto from Request.');
+		}
 
-			resolve(this);
-		});
+		this._email = email;
+		this._username = username;
+		this._password = password;
+
+		return this;
 	}
 }

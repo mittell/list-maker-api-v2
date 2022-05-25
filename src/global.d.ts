@@ -4,5 +4,6 @@ namespace NodeJS {
 		DB_URL: string;
 		NODE_ENV: string;
 		SENTRY_URL: string;
+		JWT_SECRET: string;
 	}
 }
