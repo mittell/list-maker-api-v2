@@ -29,7 +29,6 @@ import { IListModel } from '../../lists/interfaces/model/listModel.interface';
 import { ListModel } from '../../lists/models/list.model';
 import { IListDao } from '../../lists/interfaces/dao/listDao.interface';
 import { ListDao } from '../../lists/dao/list.dao';
-import { IListService } ../../lists/interfaces/service/listService.interfaceerface';
 import { ListService } from '../../lists/services/list.service';
 import { IListController } from '../../lists/interfaces/controller/listController.interface';
 import { ListController } from '../../lists/controllers/list.controller';
@@ -43,6 +42,7 @@ import { IListItemController } from '../../listItems/interfaces/controller/listI
 import { ListItemController } from '../../listItems/controllers/listItem.controller';
 import { IValidateLoginRequestMiddleware } from '../../auth/interfaces/middleware/validateLoginRequestMiddleware.interface';
 import { ValidateLoginRequestMiddleware } from '../../auth/middleware/validateLoginRequest.middleware';
+import { IListService } from '../../lists/interfaces/service/listService.interface';
 
 const container = new Container();
 
