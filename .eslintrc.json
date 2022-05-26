@@ -1,25 +1,33 @@
 {
+	// "parser": "@typescript-eslint/parser",
+	// "parserOptions": {
+	// 	"ecmaVersion": "latest",
+	// 	"sourceType": "module"
+	// },
+	"parser": "babel-eslint",
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module",
+		"impliedStrict": true,
+		"ecmaFeatures": {
+			"impliedStrict": true,
+			"legacyDecorators": true
+		}
+	},
 	"env": {
 		"browser": true,
-		"es2021": true,
-		"node": true
+		"es6": true,
+		"node": true,
+		"jest": true
 	},
 	"extends": [
-		//"airbnb-base"
 		"plugin:@typescript-eslint/recommended",
-		// "plugin:mocha/recommended",
 		"prettier",
 		"eslint-config-prettier",
-		"eslint:recommended"
-		// "eslint-config-airbnb-base"
+		"eslint:recommended",
+		"plugin:jest/recommended"
 	],
-	"parser": "@typescript-eslint/parser",
-	"parserOptions": {
-		"ecmaVersion": "latest",
-		"sourceType": "module"
-	},
-	"plugins": ["@typescript-eslint", "prettier"],
-	// "plugins": ["@typescript-eslint", "mocha", "prettier"],
+	"plugins": ["@typescript-eslint", "prettier", "jest"],
 	"rules": {
 		"@typescript-eslint/no-inferrable-types": [
 			true,
@@ -29,6 +37,7 @@
 		"@typescript-eslint/no-unused-vars": "error",
 		"@typescript-eslint/consistent-type-definitions": ["error", "type"],
 		"@typescript-eslint/ban-ts-comment": "off",
-		"prettier/prettier": "off"
+		"prettier/prettier": "off",
+		"no-console": "off"
 	}
 }
